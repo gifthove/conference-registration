@@ -97,7 +97,12 @@ const newRegistration = {
     workphone: null,
     mobilePhone: null,
     email: null,
-    id: 0
+    id: 0,
+    position: null,
+    department: null,
+    postalCode: null,
+    city: null,
+    country: ""
   },
   conferenceId: 1,
   attendingSessions: [
@@ -114,10 +119,24 @@ const newRegistration = {
   ]
 };
 
+const DefaultOption = { value: "", text: "Select a Title" };
+const Titles = [
+  {
+    value: "Mr",
+    text: "Mr"
+  },
+  {
+    value: "Mrs",
+    text: "Mrs"
+  }
+];
+
 // Using CommonJS style export so we can consume via Node (without using Babel-node)
 module.exports = {
   newAttendee,
   attendees,
-  newRegistration
+  newRegistration,
+  Titles,
+  DefaultOption
   // authors
 };

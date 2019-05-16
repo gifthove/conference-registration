@@ -19,8 +19,6 @@ function ManageRegistrationPage({
     ...props.registration,
     attendee: { ...props.registration.attendee }
   });
-  // const [attendee, setAttendee] = useState({ ...registration.attendee });
-
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
 
@@ -41,11 +39,6 @@ function ManageRegistrationPage({
   function handleChange(event) {
     debugger;
     const { name, value } = event.target;
-
-    // setAttendee(prevAttendee => ({
-    //   ...prevAttendee,
-    //   [name]: value
-    // }));
 
     setRegistration(prevRegistration => ({
       ...prevRegistration,

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using conference_registration.data;
 
 namespace conference_registration.data.Migrations
 {
     [DbContext(typeof(ConferenceContext))]
-    partial class ConferenceContextModelSnapshot : ModelSnapshot
+    [Migration("20190516093433_AddedMoreColumns")]
+    partial class AddedMoreColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,6 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import TextInput from "../common/TextInput";
+import SelectInput from "../common/SelectInput";
+import { Titles } from "../../tools/mockData";
+import LabelForInput from "../common/LabelForInput";
+import TextInputAlone from "../common/TextInputAlone";
+import { Countries } from "../../tools/Countries";
 
 const RegistrationForm = ({
   registration,
@@ -11,34 +16,85 @@ const RegistrationForm = ({
 }) => {
   return (
     <form onSubmit={onSave}>
-      <h2>{registration.id ? "Edit" : "Add"} Registration</h2>
+      {/* <h2>
+        {registration.id
+          ? "Edit Conference Registration"
+          : "Conference Registration"}{" "}
+      </h2> */}
+      <br />
+      <p className="offset-md-1">
+        Please {registration.id ? "edit" : "book for"} your conference by
+        filling the form below, specify the expected number joining the
+        conference.
+      </p>
+      <br />
       {errors.onSave && (
         <div className="alert alert-danger" role="alert">
           {errors.onSave}
         </div>
       )}
-      <TextInput
+      <SelectInput
         name="title"
         label="Title"
+        onChange={onChange}
+        defaultOption={"Select a Title"}
         value={registration.attendee.title}
-        onChange={onChange}
         error={errors.title}
+        options={Titles}
       />
+      <div className="form-group col-md-12 offset-md-1 row">
+        <LabelForInput
+          name="firstName"
+          label="Full Name"
+          className="col-md-3"
+        />
+        <TextInputAlone
+          name="firstName"
+          value={registration.attendee.firstName}
+          onChange={onChange}
+          error={errors.firstName}
+          placeholder="First Name"
+          className="field col-md-3"
+        />
+        <TextInputAlone
+          name="lastName"
+          value={registration.attendee.lastName}
+          onChange={onChange}
+          error={errors.lastName}
+          placeholder="Family Name"
+          className="field col-md-3"
+        />
+      </div>
 
+      <div className="form-group col-md-12 offset-md-1 row">
+        <LabelForInput
+          name="postion"
+          label="Position & Department"
+          className="col-md-3"
+        />
+        <TextInputAlone
+          name="position"
+          value={registration.attendee.position}
+          onChange={onChange}
+          error={errors.position}
+          placeholder="Position"
+          className="field col-md-3"
+        />
+        <TextInputAlone
+          name="department"
+          value={registration.attendee.department}
+          onChange={onChange}
+          error={errors.department}
+          placeholder="Department"
+          className="field col-md-3"
+        />
+      </div>
       <TextInput
-        name="firstName"
-        label="FirstName"
-        value={registration.attendee.firstName}
+        name="company"
+        label="Company"
+        value={registration.attendee.company}
         onChange={onChange}
-        error={errors.firstName}
-      />
-
-      <TextInput
-        name="lastName"
-        label="LastName"
-        value={registration.attendee.lastName}
-        onChange={onChange}
-        error={errors.lastName}
+        error={errors.company}
       />
 
       <TextInput
@@ -51,20 +107,44 @@ const RegistrationForm = ({
 
       <TextInput
         name="addressLine2"
-        label="Address"
+        label=""
         value={registration.attendee.addressLine2}
         onChange={onChange}
         error={errors.addressLine2}
       />
+      <div className="form-group col-md-12 offset-md-1 row">
+        <LabelForInput
+          name="postalcode"
+          label="Postal code & City"
+          className="col-md-3"
+        />
+        <TextInputAlone
+          name="postalcode"
+          value={registration.attendee.postalcode}
+          onChange={onChange}
+          error={errors.postalcode}
+          placeholder="Postal code"
+          className="field col-md-3"
+        />
+        <TextInputAlone
+          name="city"
+          value={registration.attendee.city}
+          onChange={onChange}
+          error={errors.city}
+          placeholder="City"
+          className="field col-md-3"
+        />
+      </div>
 
-      <TextInput
-        name="company"
-        label="Company"
-        value={registration.attendee.company}
+      <SelectInput
+        name="country"
+        label="Country"
         onChange={onChange}
-        error={errors.company}
+        defaultOption={"Select a Country"}
+        value={registration.attendee.country}
+        error={errors.country}
+        options={Countries}
       />
-
       <TextInput
         name="workphone"
         label="Work Phone"
@@ -83,15 +163,23 @@ const RegistrationForm = ({
 
       <TextInput
         name="email"
-        label="email"
+        label="Email"
         value={registration.attendee.email}
         onChange={onChange}
         error={errors.email}
       />
-
-      <button type="submit" disabled={saving} className="btn btn-primary">
-        {saving ? "Saving..." : "Save"}
-      </button>
+      <TextInput
+        name="fax"
+        label="Fax"
+        value={registration.attendee.fax}
+        onChange={onChange}
+        error={errors.fax}
+      />
+      <div className="offset-md-5">
+        <button type="submit" disabled={saving} className="btn btn-primary">
+          {saving ? "Submitting..." : "Submit"}
+        </button>
+      </div>
     </form>
   );
 };

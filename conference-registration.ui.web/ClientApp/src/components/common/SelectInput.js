@@ -11,9 +11,11 @@ const SelectInput = ({
   options
 }) => {
   return (
-    <div className="form-group">
-      <label htmlFor={name}>{label}</label>
-      <div className="field">
+    <div className="form-group col-md-12 offset-md-1 row">
+      <div className="col-md-3">
+        <label htmlFor={name}>{label}</label>
+      </div>
+      <div className="field col-md-6">
         {/* Note, value is set here rather than on the option - docs: https://facebook.github.io/react/docs/forms.html */}
         <select
           name={name}
