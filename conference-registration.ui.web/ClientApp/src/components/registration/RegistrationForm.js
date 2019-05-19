@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import TextInput from "../common/TextInput";
 import SelectInput from "../common/SelectInput";
-import { Titles } from "../../tools/mockData";
+import { Titles } from "../../dataModels/models";
 import LabelForInput from "../common/LabelForInput";
 import TextInputAlone from "../common/TextInputAlone";
 import { Countries } from "../../tools/Countries";
@@ -16,16 +16,10 @@ const RegistrationForm = ({
 }) => {
   return (
     <form onSubmit={onSave}>
-      {/* <h2>
-        {registration.id
-          ? "Edit Conference Registration"
-          : "Conference Registration"}{" "}
-      </h2> */}
       <br />
       <p className="offset-md-1">
-        Please {registration.id ? "edit" : "book for"} your conference by
-        filling the form below, specify the expected number joining the
-        conference.
+        Please {registration.id ? "edit" : "book for"} your conference by ing
+        the form below, specify the expected number joining the conference.
       </p>
       <br />
       {errors.onSave && (
@@ -55,6 +49,7 @@ const RegistrationForm = ({
           error={errors.firstName}
           placeholder="First Name"
           className="field col-md-3"
+          inputType={"input"}
         />
         <TextInputAlone
           name="lastName"
@@ -63,6 +58,7 @@ const RegistrationForm = ({
           error={errors.lastName}
           placeholder="Family Name"
           className="field col-md-3"
+          inputType={"input"}
         />
       </div>
 
@@ -79,6 +75,7 @@ const RegistrationForm = ({
           error={errors.position}
           placeholder="Position"
           className="field col-md-3"
+          inputType={"input"}
         />
         <TextInputAlone
           name="department"
@@ -87,6 +84,7 @@ const RegistrationForm = ({
           error={errors.department}
           placeholder="Department"
           className="field col-md-3"
+          inputType={"input"}
         />
       </div>
       <TextInput
@@ -125,6 +123,7 @@ const RegistrationForm = ({
           error={errors.postalcode}
           placeholder="Postal code"
           className="field col-md-3"
+          inputType={"input"}
         />
         <TextInputAlone
           name="city"
@@ -133,6 +132,7 @@ const RegistrationForm = ({
           error={errors.city}
           placeholder="City"
           className="field col-md-3"
+          inputType={"input"}
         />
       </div>
 
@@ -175,6 +175,18 @@ const RegistrationForm = ({
         onChange={onChange}
         error={errors.fax}
       />
+
+      <TextInputAlone
+        name="conferenceId"
+        label="conferenceId"
+        value={registration.conferenceId}
+        onChange={onChange}
+        error={errors.conferenceId}
+        placeholder="conferenceId"
+        className="field col-md-3"
+        inputType={"hidden"}
+      />
+
       <div className="offset-md-5">
         <button type="submit" disabled={saving} className="btn btn-primary">
           {saving ? "Submitting..." : "Submit"}

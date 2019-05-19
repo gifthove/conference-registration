@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import * as registrationActions from "../../redux/actions/registrationActions";
 import PropTypes from "prop-types";
 import RegistrationForm from "./RegistrationForm";
-import { newRegistration } from "../../tools/mockData";
+import { newRegistration } from "../../dataModels/models";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
 

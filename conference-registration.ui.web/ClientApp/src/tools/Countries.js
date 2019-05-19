@@ -257,7 +257,6 @@ const Countries = [
   { value: "Venezuela", text: "Venezuela" },
   { value: "Viet Nam", text: "Viet Nam" },
   { value: "Virgin Islands", text: "Virgin Islands" },
-  { value: "Virgin Islands", text: "Virgin Islands" },
   { value: "Wallis and Futuna", text: "Wallis and Futuna" },
   { value: "Western Sahara", text: "Western Sahara" },
   { value: "Yemen", text: "Yemen" },

@@ -7,12 +7,13 @@ const TextInputAlone = ({
   placeholder,
   value,
   error,
-  className
+  className,
+  inputType
 }) => {
   return (
     <div className={className}>
       <input
-        type="text"
+        type={inputType}
         name={name}
         className="form-control"
         placeholder={placeholder}
@@ -28,9 +29,14 @@ TextInputAlone.propTypes = {
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.null
+  ]),
   error: PropTypes.string,
-  className: PropTypes.string
+  className: PropTypes.string,
+  inputType: PropTypes.string
 };
 
 export default TextInputAlone;

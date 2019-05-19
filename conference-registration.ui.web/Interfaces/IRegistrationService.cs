@@ -20,7 +20,7 @@ namespace conference_registration.ui.web.Interfaces
     public interface IRegistrationService
     {
         /// <summary>
-        /// The get attendee by id.
+        /// The get registration by id.
         /// </summary>
         /// <param name="id">
         /// The id.
@@ -42,23 +42,23 @@ namespace conference_registration.ui.web.Interfaces
         List<RegistrationViewModel> GetAllRegistrations();
 
         /// <summary>
-        /// The create attendee.
+        /// The create registration.
         /// </summary>
-        /// <param name="attendee">
-        /// The attendee.
+        /// <param name="registrationViewModel">
+        /// The registration view model.
         /// </param>
-        void CreateRegistration(RegistrationViewModel attendee);
+        void CreateRegistration(RegistrationViewModel registrationViewModel);
 
         /// <summary>
-        /// The update attendee.
+        /// The update registration.
         /// </summary>
-        /// <param name="attendee">
-        /// The attendee.
+        /// <param name="registrationViewModel">
+        /// The registration view model.
         /// </param>
-        void UpdateRegistration(Registration attendee);
+        void UpdateRegistration(RegistrationViewModel registrationViewModel);
 
         /// <summary>
-        /// The delete attendee.
+        /// The delete registration.
         /// </summary>
         /// <param name="id">
         /// The id.

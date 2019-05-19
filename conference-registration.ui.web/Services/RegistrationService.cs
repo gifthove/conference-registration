@@ -112,12 +112,14 @@ namespace conference_registration.ui.web.Services
         /// <summary>
         /// The update registration.
         /// </summary>
-        /// <param name="registration">
-        /// The registration.
+        /// <param name="registrationViewModel">
+        /// The registration View Model.
         /// </param>
-        public void UpdateRegistration(Registration registration)
+        public void UpdateRegistration(RegistrationViewModel registrationViewModel)
         {
             this._logger.LogInformation(LoggingEvents.UpdateItem, "Update Registration");
+            var registration = this._mapper.Map<Registration>(registrationViewModel);
+            registration.AddAttendeeSessionRegistration(registrationViewModel.AttendingSessions.ToList());
             this._registrationRepository.Update(registration);
         }
 

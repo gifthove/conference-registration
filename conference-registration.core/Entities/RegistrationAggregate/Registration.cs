@@ -18,7 +18,6 @@ namespace conference_registration.core.Entities.RegistrationAggregate
     /// </summary>
     public class Registration : BaseEntity, IAggregateRoot
     {
-
         /// <summary>
         /// Gets or sets the attendee id.
         /// </summary>
@@ -35,22 +34,24 @@ namespace conference_registration.core.Entities.RegistrationAggregate
         public int ConferenceId { get; private set; }
 
         /// <summary>
-        /// 
+        /// The _attending sessions.
         /// </summary>
         private readonly List<AttendeeSessionRegistration> _attendingSessions = new List<AttendeeSessionRegistration>();
 
         /// <summary>
-        /// 
+        /// The attending sessions.
         /// </summary>
-        public IReadOnlyCollection<AttendeeSessionRegistration> AttendingSessions => _attendingSessions.AsReadOnly();
+        public IReadOnlyCollection<AttendeeSessionRegistration> AttendingSessions => this._attendingSessions.AsReadOnly();
 
         /// <summary>
-        /// 
+        /// The add attendee session registration.
         /// </summary>
-        /// <param name="attendingSessions"></param>
+        /// <param name="attendingSessions">
+        /// The attending sessions.
+        /// </param>
         public void AddAttendeeSessionRegistration(List<AttendeeSessionRegistration> attendingSessions)
         {
-            if (ConferenceId == 0)
+            if (this.ConferenceId == 0)
             {
                 // Can not Add 
                 return;
@@ -66,6 +67,5 @@ namespace conference_registration.core.Entities.RegistrationAggregate
                 this._attendingSessions.Add(new AttendeeSessionRegistration() { SessionId = session.SessionId });
             }
         }
-
     }
 }

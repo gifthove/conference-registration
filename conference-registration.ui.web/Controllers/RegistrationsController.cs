@@ -90,7 +90,7 @@ namespace conference_registration.ui.web.Controllers
         /// The <see cref="IActionResult"/>.
         /// </returns>
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Registration Registration)
+        public IActionResult Put(int id, [FromBody] RegistrationViewModel Registration)
         {
             this._registrationService.UpdateRegistration(Registration);
             return this.Ok(Registration);
