@@ -44,7 +44,7 @@ export default class NavMenu extends React.Component {
             >
               <ul className="navbar-nav flex-grow">
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/" exact>
+                  <NavLink tag={Link} className="text-dark" to="/">
                     Home
                   </NavLink>
                 </NavItem>
@@ -59,7 +59,7 @@ export default class NavMenu extends React.Component {
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/about" exact>
+                  <NavLink tag={Link} className="text-dark" to="/about">
                     About
                   </NavLink>
                 </NavItem>
