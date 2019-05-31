@@ -64,6 +64,7 @@ namespace conference_registration.core.Entities.RegistrationAggregate
                     // already registered;
                     continue;
                 }
+
                 this._attendingSessions.Add(new AttendeeSessionRegistration() { SessionId = session.SessionId });
             }
         }

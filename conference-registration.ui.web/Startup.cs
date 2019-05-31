@@ -87,10 +87,12 @@ namespace conference_registration.ui.web
                 services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
                 services.AddScoped<IRepository<Attendee>, Repository<Attendee>>();
-                services.AddScoped<IRepository<Conference>, Repository<Conference>>();
+                services.AddScoped<IRepository<Conference>, ConferenceRepository>();
                 services.AddScoped<IRepository<Session>, Repository<Session>>();
                 services.AddScoped<IRepository<Registration>, RegistrationRepository>();
+
                 services.AddScoped<IAttendeeService, AttendeeService>();
+                services.AddScoped<IConferenceService, ConferenceService>();
                 services.AddScoped<IRegistrationService, RegistrationService>();
 
                 // Auto Mapper Configurations
@@ -112,10 +114,12 @@ namespace conference_registration.ui.web
                 services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
                 services.AddScoped<IRepository<Attendee>, Repository<Attendee>>();
-                services.AddScoped<IRepository<Conference>, Repository<Conference>>();
+                services.AddScoped<IRepository<Conference>, ConferenceRepository>();
                 services.AddScoped<IRepository<Session>, Repository<Session>>();
-                services.AddScoped<IRepository<Registration>, Repository<Registration>>();
+                services.AddScoped<IRepository<Registration>, RegistrationRepository>();
+
                 services.AddScoped<IAttendeeService, AttendeeService>();
+                services.AddScoped<IConferenceService, ConferenceService>();
                 services.AddScoped<IRegistrationService, RegistrationService>();
 
                 // Auto Mapper Configurations
@@ -165,11 +169,11 @@ namespace conference_registration.ui.web
             app.UseSpaStaticFiles();
 
             app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
-            });
+                {
+                    routes.MapRoute(
+                        name: "default",
+                        template: "{controller}/{action=Index}/{id?}");
+                });
 
             app.UseSpa(spa =>
             {

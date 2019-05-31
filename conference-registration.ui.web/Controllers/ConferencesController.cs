@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AttendeesController.cs" company="Gift Ltd">
+// <copyright file="ConferencesController.cs" company="Gift Ltd">
 //   © Copyright 2019 - All rights reserved
 // </copyright>
 // <summary>
-//   Defines the AttendeesController type.
+//   Defines the ConferencesController type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ namespace conference_registration.ui.web.Controllers
 {
     using System.Collections.Generic;
 
-    using conference_registration.core.Entities.RegistrationAggregate;
+    using conference_registration.core.Entities.ConferenceAggregate;
     using conference_registration.ui.web.Interfaces;
 
     using Microsoft.AspNetCore.Mvc;
@@ -23,25 +23,25 @@ namespace conference_registration.ui.web.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class AttendeesController : ControllerBase
+    public class ConferencesController : ControllerBase
     {
         /// <summary>
         /// The _attendee service.
         /// </summary>
-        private readonly IAttendeeService _attendeeService;
+        private readonly IConferenceService _conferenceService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AttendeesController"/> class.
+        /// Initializes a new instance of the <see cref="ConferencesController"/> class.
         /// </summary>
-        /// <param name="attendeeService">
+        /// <param name="conferenceService">
         /// The attendee service.
         /// </param>
-        public AttendeesController(IAttendeeService attendeeService)
+        public ConferencesController(IConferenceService conferenceService)
         {
-            this._attendeeService = attendeeService;
+            this._conferenceService = conferenceService;
         }
 
-        // GET: api/Attendees
+        // GET: api/Conferences
 
         /// <summary>
         /// The get.
@@ -53,30 +53,47 @@ namespace conference_registration.ui.web.Controllers
         ///     .
         /// </returns>
         [HttpGet]
-        public ActionResult<IEnumerable<Attendee>> Get()
+        public ActionResult<IEnumerable<Conference>> Get()
         {
-            return this._attendeeService.GetAllAttendees();
+            return this._conferenceService.GetAllConferences();
         }
 
-        // POST: api/Attendees
+        // GET: api/Conference/5
+
+        /// <summary>
+        /// The get.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ActionResult"/>.
+        /// </returns>
+        [HttpGet("{id}", Name = "GetConference")]
+        public ActionResult<Conference> Get(int id)
+        {
+            return this._conferenceService.GetConferenceById(id);
+        }
+
+        // POST: api/Conferences
 
         /// <summary>
         /// The post.
         /// </summary>
-        /// <param name="Attendee">
+        /// <param name="Conference">
         /// The attendee.
         /// </param>
         /// <returns>
         /// The <see cref="ActionResult"/>.
         /// </returns>
         [HttpPost]
-        public ActionResult<Attendee> Post([FromBody] Attendee Attendee)
+        public ActionResult<Conference> Post([FromBody] Conference Conference)
         {
-            this._attendeeService.CreateAttendee(Attendee);
-            return this.Ok(Attendee);
+            this._conferenceService.CreateConference(Conference);
+            return this.Ok(Conference);
         }
 
-        // PUT: api/Attendees/5
+        // PUT: api/Conferences/5
 
         /// <summary>
         /// The put.
@@ -84,17 +101,17 @@ namespace conference_registration.ui.web.Controllers
         /// <param name="id">
         /// The id.
         /// </param>
-        /// <param name="Attendee">
+        /// <param name="Conference">
         /// The attendee.
         /// </param>
         /// <returns>
         /// The <see cref="IActionResult"/>.
         /// </returns>
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Attendee Attendee)
+        public IActionResult Put(int id, [FromBody] Conference Conference)
         {
-            this._attendeeService.UpdateAttendee(Attendee);
-            return this.Ok(Attendee); 
+            this._conferenceService.UpdateConference(Conference);
+            return this.Ok(Conference); 
         }
 
         // DELETE: api/ApiWithActions/5
@@ -111,14 +128,14 @@ namespace conference_registration.ui.web.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var attendee = this._attendeeService.GetAttendeeById(id);
+            var attendee = this._conferenceService.GetConferenceById(id);
 
             if (attendee == null)
             {
                 return this.NotFound();
             }
 
-            this._attendeeService.DeleteAttendee(id); 
+            this._conferenceService.DeleteConference(id); 
 
             return this.Ok();
         }

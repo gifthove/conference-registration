@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MappingProfileMappingProfile.cs" company="Gift Ltd">
+// <copyright file="MappingProfile.cs" company="Gift Ltd">
 //   © Copyright 2019 - All rights reserved
 // </copyright>
 // <summary>

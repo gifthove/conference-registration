@@ -1,5 +1,6 @@
 export default {
   attendees: [],
   registrations: [],
-  apiCallsInProgress: 0
+  apiCallsInProgress: 0,
+  conference: {}
 };

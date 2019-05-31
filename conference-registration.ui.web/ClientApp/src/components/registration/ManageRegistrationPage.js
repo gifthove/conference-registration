@@ -6,12 +6,15 @@ import RegistrationForm from "./RegistrationForm";
 import { newRegistration } from "../../dataModels/models";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
+import * as conferenceActions from "../../redux/actions/conferenceActions";
 
 function ManageRegistrationPage({
   registrations,
   loadRegistrations,
   saveRegistration,
   history,
+  conference,
+  getConferenceById,
   ...props
 }) {
   // This is adding the state via useState hook... read more on hooks
@@ -21,6 +24,7 @@ function ManageRegistrationPage({
   });
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
+  const [step, setStep] = useState(0);
 
   // useEffect hook lets us replace componentDidMount
   // Hooks allow us to handle state and side effects in func components
@@ -30,6 +34,9 @@ function ManageRegistrationPage({
   // The second parameter to the UseEffect is an array of watchable items
   useEffect(() => {
     if (registrations.length === 0) {
+      getConferenceById(1).catch(error => {
+        alert("Getting conference failed" + error);
+      });
       loadRegistrations().catch(error => {
         alert("Loading registrations failed" + error);
       });
@@ -37,9 +44,7 @@ function ManageRegistrationPage({
   }, []);
 
   function handleChange(event) {
-    debugger;
     const { name, value } = event.target;
-
     setRegistration(prevRegistration => ({
       ...prevRegistration,
       attendee: {
@@ -47,10 +52,18 @@ function ManageRegistrationPage({
         [name]: value
       }
     }));
+    validateProperty(name);
+  }
+
+  function validateProperty(name) {
+    const { attendee } = registration;
+    if (!attendee[name] && errors[name]) {
+      errors[name] = "";
+      setErrors(errors);
+    }
   }
 
   function formIsValid() {
-    debugger;
     const {
       attendee: { title, firstName, lastName, addressLine1, mobilePhone, email }
     } = registration;
@@ -70,9 +83,21 @@ function ManageRegistrationPage({
     return Object.keys(errors).length === 0;
   }
 
+  function handleNext(event) {
+    event.preventDefault();
+    if (!formIsValid()) return;
+    setStep(1);
+  }
+
+  function handleBack(event) {
+    event.preventDefault();
+    setStep(prevStep => prevStep - 1);
+  }
+
   function handleSave(event) {
     event.preventDefault();
-    debugger;
+    var conferenceSave = conference;
+
     // if the form is not valid there is nothing more to do
     if (!formIsValid()) return;
 
@@ -96,6 +121,10 @@ function ManageRegistrationPage({
       onChange={handleChange}
       onSave={handleSave}
       saving={saving}
+      step={step}
+      onNextClick={handleNext}
+      onBackClick={handleBack}
+      sessions={[...conference.sessions]}
     />
   );
 }
@@ -105,7 +134,9 @@ ManageRegistrationPage.propTypes = {
   registrations: PropTypes.array.isRequired,
   loadRegistrations: PropTypes.func.isRequired,
   saveRegistration: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  conference: PropTypes.object.isRequired,
+  getConferenceById: PropTypes.func.isRequired
 };
 
 export function getRegistrationById(registrations, id) {
@@ -119,16 +150,19 @@ function mapStateToProps(state, ownProps) {
     id && state.registrations.length > 0
       ? getRegistrationById(state.registrations, id)
       : newRegistration;
+
   return {
     registration,
-    registrations: state.registrations
+    registrations: state.registrations,
+    conference: state.conference
   };
 }
 
 // This functions lets us declare what actions to pass our component on props
 const mapDispatchToProps = {
   saveRegistration: registrationActions.saveRegistration,
-  loadRegistrations: registrationActions.loadRegistrations
+  loadRegistrations: registrationActions.loadRegistrations,
+  getConferenceById: conferenceActions.getConferenceById
 };
 
 export default connect(

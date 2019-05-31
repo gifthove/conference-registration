@@ -1,18 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import TextInput from "../common/TextInput";
-import SelectInput from "../common/SelectInput";
-import { Titles } from "../../dataModels/models";
-import LabelForInput from "../common/LabelForInput";
-import TextInputAlone from "../common/TextInputAlone";
-import { Countries } from "../../tools/Countries";
+import RegistrationFormStepOne from "./RegistrationFormStepOne";
 
 const RegistrationForm = ({
   registration,
   onSave,
   onChange,
   saving = false,
-  errors = {}
+  errors = {},
+  step,
+  onNextClick,
+  onBackClick,
+  sessions
 }) => {
   return (
     <form onSubmit={onSave}>
@@ -27,171 +26,127 @@ const RegistrationForm = ({
           {errors.onSave}
         </div>
       )}
-      <SelectInput
-        name="title"
-        label="Title"
-        onChange={onChange}
-        defaultOption={"Select a Title"}
-        value={registration.attendee.title}
-        error={errors.title}
-        options={Titles}
-      />
-      <div className="form-group col-md-12 offset-md-1 row">
-        <LabelForInput
-          name="firstName"
-          label="Full Name"
-          className="col-md-3"
-        />
-        <TextInputAlone
-          name="firstName"
-          value={registration.attendee.firstName}
+      {step === 0 ? (
+        <RegistrationFormStepOne
+          registration={registration}
           onChange={onChange}
-          error={errors.firstName}
-          placeholder="First Name"
-          className="field col-md-3"
-          inputType={"input"}
+          errors={errors}
+          onNextClick={onNextClick}
+          sessions={sessions}
         />
-        <TextInputAlone
-          name="lastName"
-          value={registration.attendee.lastName}
-          onChange={onChange}
-          error={errors.lastName}
-          placeholder="Family Name"
-          className="field col-md-3"
-          inputType={"input"}
-        />
-      </div>
+      ) : (
+        <div>
+          <hr />
+          <h1>Terms and Conditions ("Terms")</h1>
 
-      <div className="form-group col-md-12 offset-md-1 row">
-        <LabelForInput
-          name="postion"
-          label="Position & Department"
-          className="col-md-3"
-        />
-        <TextInputAlone
-          name="position"
-          value={registration.attendee.position}
-          onChange={onChange}
-          error={errors.position}
-          placeholder="Position"
-          className="field col-md-3"
-          inputType={"input"}
-        />
-        <TextInputAlone
-          name="department"
-          value={registration.attendee.department}
-          onChange={onChange}
-          error={errors.department}
-          placeholder="Department"
-          className="field col-md-3"
-          inputType={"input"}
-        />
-      </div>
-      <TextInput
-        name="company"
-        label="Company"
-        value={registration.attendee.company}
-        onChange={onChange}
-        error={errors.company}
-      />
+          <p>Last updated: May 27, 2019</p>
 
-      <TextInput
-        name="addressLine1"
-        label="Address"
-        value={registration.attendee.addressLine1}
-        onChange={onChange}
-        error={errors.addressLine1}
-      />
+          <p>
+            Please read these Terms and Conditions ("Terms", "Terms and
+            Conditions") carefully before using the
+            https://https://bullyingprevention.help/.help/ website (the
+            "Service") operated by Bullying prevention ("us", "we", or "our").
+          </p>
 
-      <TextInput
-        name="addressLine2"
-        label=""
-        value={registration.attendee.addressLine2}
-        onChange={onChange}
-        error={errors.addressLine2}
-      />
-      <div className="form-group col-md-12 offset-md-1 row">
-        <LabelForInput
-          name="postalcode"
-          label="Postal code & City"
-          className="col-md-3"
-        />
-        <TextInputAlone
-          name="postalcode"
-          value={registration.attendee.postalcode}
-          onChange={onChange}
-          error={errors.postalcode}
-          placeholder="Postal code"
-          className="field col-md-3"
-          inputType={"input"}
-        />
-        <TextInputAlone
-          name="city"
-          value={registration.attendee.city}
-          onChange={onChange}
-          error={errors.city}
-          placeholder="City"
-          className="field col-md-3"
-          inputType={"input"}
-        />
-      </div>
+          <p>
+            Your access to and use of the Service is conditioned on your
+            acceptance of and compliance with these Terms. These Terms apply to
+            all visitors, users and others who access or use the Service.
+          </p>
 
-      <SelectInput
-        name="country"
-        label="Country"
-        onChange={onChange}
-        defaultOption={"Select a Country"}
-        value={registration.attendee.country}
-        error={errors.country}
-        options={Countries}
-      />
-      <TextInput
-        name="workphone"
-        label="Work Phone"
-        value={registration.attendee.workphone}
-        onChange={onChange}
-        error={errors.workphone}
-      />
+          <p>
+            By accessing or using the Service you agree to be bound by these
+            Terms. If you disagree with any part of the terms then you may not
+            access the Service. The Terms and Conditions agreement for Bullying
+            prevention has been created with the help of{" "}
+            <a href="https://www.termsfeed.com/">TermsFeed</a>.
+          </p>
 
-      <TextInput
-        name="mobilePhone"
-        label="Mobile Phone"
-        value={registration.attendee.mobilePhone}
-        onChange={onChange}
-        error={errors.mobilePhone}
-      />
+          <h2>Links To Other Web Sites</h2>
 
-      <TextInput
-        name="email"
-        label="Email"
-        value={registration.attendee.email}
-        onChange={onChange}
-        error={errors.email}
-      />
-      <TextInput
-        name="fax"
-        label="Fax"
-        value={registration.attendee.fax}
-        onChange={onChange}
-        error={errors.fax}
-      />
+          <p>
+            Our Service may contain links to third-party web sites or services
+            that are not owned or controlled by Bullying prevention.
+          </p>
 
-      <TextInputAlone
-        name="conferenceId"
-        label="conferenceId"
-        value={registration.conferenceId}
-        onChange={onChange}
-        error={errors.conferenceId}
-        placeholder="conferenceId"
-        className="field col-md-3"
-        inputType={"hidden"}
-      />
+          <p>
+            Bullying prevention has no control over, and assumes no
+            responsibility for, the content, privacy policies, or practices of
+            any third party web sites or services. You further acknowledge and
+            agree that Bullying prevention shall not be responsible or liable,
+            directly or indirectly, for any damage or loss caused or alleged to
+            be caused by or in connection with use of or reliance on any such
+            content, goods or services available on or through any such web
+            sites or services.
+          </p>
 
-      <div className="offset-md-5">
-        <button type="submit" disabled={saving} className="btn btn-primary">
-          {saving ? "Submitting..." : "Submit"}
-        </button>
-      </div>
+          <p>
+            We strongly advise you to read the terms and conditions and privacy
+            policies of any third-party web sites or services that you visit.
+          </p>
+
+          <h2>Governing Law</h2>
+
+          <p>
+            These Terms shall be governed and construed in accordance with the
+            laws of New Zealand, without regard to its conflict of law
+            provisions.
+          </p>
+
+          <p>
+            Our failure to enforce any right or provision of these Terms will
+            not be considered a waiver of those rights. If any provision of
+            these Terms is held to be invalid or unenforceable by a court, the
+            remaining provisions of these Terms will remain in effect. These
+            Terms constitute the entire agreement between us regarding our
+            Service, and supersede and replace any prior agreements we might
+            have between us regarding the Service.
+          </p>
+
+          <h2>Changes</h2>
+
+          <p>
+            We reserve the right, at our sole discretion, to modify or replace
+            these Terms at any time. If a revision is material we will try to
+            provide at least 15 days notice prior to any new terms taking
+            effect. What constitutes a material change will be determined at our
+            sole discretion.
+          </p>
+
+          <p>
+            By continuing to access or use our Service after those revisions
+            become effective, you agree to be bound by the revised terms. If you
+            do not agree to the new terms, please stop using the Service.
+          </p>
+
+          <h2>Contact Us</h2>
+
+          <p>If you have any questions about these Terms, please contact us.</p>
+
+          <div className="form-check">
+            <input
+              type="checkbox"
+              className="form-check-input"
+              id="exampleCheck1"
+            />
+            <label className="form-check-label" labeleFor="exampleCheck1">
+              I accept the terms and use
+            </label>
+          </div>
+          <div className="offset-md-4">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={onBackClick}
+            >
+              Back
+            </button>
+            <button type="submit" disabled={saving} className="btn btn-primary">
+              {saving ? "Submitting..." : "Submit"}
+            </button>
+          </div>
+        </div>
+      )}
     </form>
   );
 };
@@ -201,7 +156,11 @@ RegistrationForm.propTypes = {
   errors: PropTypes.object,
   onSave: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  saving: PropTypes.bool
+  saving: PropTypes.bool,
+  step: PropTypes.number,
+  onNextClick: PropTypes.func.isRequired,
+  onBackClick: PropTypes.func.isRequired,
+  sessions: PropTypes.array.isRequired
 };
 
 export default RegistrationForm;
