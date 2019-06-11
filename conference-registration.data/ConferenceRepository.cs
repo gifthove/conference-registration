@@ -12,11 +12,11 @@ namespace conference_registration.data
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
+    using System.Linq.Expressions;
 
     using conference_registration.core.Entities.ConferenceAggregate;
-    using conference_registration.core.Entities.RegistrationAggregate;
     using conference_registration.core.Interfaces;
+    using conference_registration.core.Paging;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -67,6 +67,47 @@ namespace conference_registration.data
         {
             return this._dbSet.Include(a => a.Sessions)
                 .ToList();
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// The find by.
+        /// </summary>
+        /// <param name="filterQuery">
+        /// The filter query.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///         <cref>IEnumerable</cref>
+        ///     </see>
+        ///     .
+        /// </returns>
+        public IEnumerable<Conference> FindBy(Expression<Func<Conference, bool>> filterQuery)
+        {
+            var conferences = this._dbSet.Where(filterQuery).ToList();
+            return conferences;
+        }
+
+        /// <summary>
+        /// The get paged result for query.
+        /// </summary>
+        /// <param name="filterQuery">
+        /// The filter query.
+        /// </param>
+        /// <param name="page">
+        /// The page.
+        /// </param>
+        /// <param name="pageSize">
+        /// The page size.
+        /// </param>
+        /// <returns>
+        /// The <see cref="PagedResult"/>.
+        /// </returns>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
+        public PagedResult<Conference> GetPagedResultForQuery(Expression<Func<Conference, bool>> filterQuery, int page, int pageSize)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

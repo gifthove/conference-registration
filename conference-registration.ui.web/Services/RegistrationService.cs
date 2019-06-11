@@ -9,14 +9,17 @@
 
 namespace conference_registration.ui.web.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
 
     using AutoMapper;
 
     using conference_registration.common;
     using conference_registration.core.Entities.RegistrationAggregate;
     using conference_registration.core.Interfaces;
+    using conference_registration.core.Paging;
     using conference_registration.ui.web.Interfaces;
     using conference_registration.ui.web.ViewModel;
 
@@ -79,6 +82,22 @@ namespace conference_registration.ui.web.Services
             return null;
         }
 
+        ///// <summary>
+        ///// The get all registrations.
+        ///// </summary>
+        ///// <returns>
+        ///// The <see>
+        /////         <cref>List</cref>
+        /////     </see>
+        /////     .
+        ///// </returns>
+        //public List<RegistrationViewModel> GetAllRegistrations()
+        //{
+        //    this._logger.LogInformation(LoggingEvents.ListItems, "Get all registrations");
+        //    var registrations = this._registrationRepository.List().ToList();
+        //    return this._mapper.Map<List<RegistrationViewModel>>(registrations);
+        //}
+
         /// <summary>
         /// The get all registrations.
         /// </summary>
@@ -88,11 +107,13 @@ namespace conference_registration.ui.web.Services
         ///     </see>
         ///     .
         /// </returns>
-        public List<RegistrationViewModel> GetAllRegistrations()
+        public PagedResult<RegistrationViewModel> GetAllRegistrations()
         {
+            Expression<Func<Registration, bool>> filterQuery = r => r.Attendee.FirstName == "Gift";
+
             this._logger.LogInformation(LoggingEvents.ListItems, "Get all registrations");
-            var registrations = this._registrationRepository.List().ToList();
-            return this._mapper.Map<List<RegistrationViewModel>>(registrations);
+            var registrations = this._registrationRepository.GetPagedResultForQuery(filterQuery,1,3);
+            return this._mapper.Map<PagedResult<RegistrationViewModel>>(registrations);
         }
 
         /// <summary>

@@ -9,11 +9,14 @@
 
 namespace conference_registration.data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
 
     using conference_registration.core.Entities;
     using conference_registration.core.Interfaces;
+    using conference_registration.core.Paging;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -65,6 +68,55 @@ namespace conference_registration.data
         public IEnumerable<TEntity> List()
         {
             return this._dbSet.ToList();
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// The find by.
+        /// </summary>
+        /// <param name="filterQuery">
+        /// The filter query.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///         <cref>IEnumerable</cref>
+        ///     </see>
+        ///     .
+        /// </returns>
+        public IEnumerable<TEntity> FindBy(Expression<Func<TEntity, bool>> filterQuery)
+        {
+            var entities = this._dbSet.Where(filterQuery).ToList();
+            return entities;
+        }
+
+        /// <summary>
+        /// The get paged result for query.
+        /// </summary>
+        /// <param name="filterQuery">
+        /// The filter query.
+        /// </param>
+        /// <param name="page">
+        /// The page.
+        /// </param>
+        /// <param name="pageSize">
+        /// The page size.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///         <cref>PagedResult</cref>
+        ///     </see>
+        ///     .
+        /// </returns>
+        public PagedResult<TEntity> GetPagedResultForQuery(Expression<Func<TEntity, bool>> filterQuery, int page, int pageSize)
+        {
+            var query = this._dbSet.Where(filterQuery);
+            var result = new PagedResult<TEntity> { CurrentPage = page, PageSize = pageSize, RowCount = query.Count() };
+            var pageCount = (double)result.RowCount / pageSize;
+            result.PagesCount = (int)Math.Ceiling(pageCount);
+            var skip = (page - 1) * pageSize;
+            result.Results = query.Skip(skip).Take(pageSize).ToList();
+
+            return result;
         }
 
         /// <summary>

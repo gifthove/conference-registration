@@ -12,6 +12,7 @@ namespace conference_registration.ui.web.Interfaces
     using System.Collections.Generic;
 
     using conference_registration.core.Entities.RegistrationAggregate;
+    using conference_registration.core.Paging;
     using conference_registration.ui.web.ViewModel;
 
     /// <summary>
@@ -39,7 +40,7 @@ namespace conference_registration.ui.web.Interfaces
         ///     </see>
         ///     .
         /// </returns>
-        List<RegistrationViewModel> GetAllRegistrations();
+        PagedResult<RegistrationViewModel> GetAllRegistrations();
 
         /// <summary>
         /// The create registration.

@@ -12,6 +12,7 @@ namespace conference_registration.ui.web.Controllers
     using System.Collections.Generic;
 
     using conference_registration.core.Entities.RegistrationAggregate;
+    using conference_registration.core.Paging;
     using conference_registration.ui.web.Interfaces;
     using conference_registration.ui.web.ViewModel;
 
@@ -52,7 +53,7 @@ namespace conference_registration.ui.web.Controllers
         ///     .
         /// </returns>
         [HttpGet]
-        public ActionResult<IEnumerable<RegistrationViewModel>> Get()
+        public ActionResult<PagedResult<RegistrationViewModel>> Get()
         {
             return this._registrationService.GetAllRegistrations();
         }
