@@ -110,8 +110,8 @@ namespace conference_registration.data
         public PagedResult<TEntity> GetPagedResultForQuery(Expression<Func<TEntity, bool>> filterQuery, int page, int pageSize)
         {
             var query = this._dbSet.Where(filterQuery);
-            var result = new PagedResult<TEntity> { CurrentPage = page, PageSize = pageSize, RowCount = query.Count() };
-            var pageCount = (double)result.RowCount / pageSize;
+            var result = new PagedResult<TEntity> { CurrentPage = page, PageSize = pageSize, TotalCount = query.Count() };
+            var pageCount = (double)result.TotalCount / pageSize;
             result.PagesCount = (int)Math.Ceiling(pageCount);
             var skip = (page - 1) * pageSize;
             result.Results = query.Skip(skip).Take(pageSize).ToList();

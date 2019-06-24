@@ -14,6 +14,7 @@ namespace conference_registration.ui.web.Controllers
     using conference_registration.core.Entities.RegistrationAggregate;
     using conference_registration.core.Paging;
     using conference_registration.ui.web.Interfaces;
+    using conference_registration.ui.web.Models;
     using conference_registration.ui.web.ViewModel;
 
     using Microsoft.AspNetCore.Mvc;
@@ -53,9 +54,29 @@ namespace conference_registration.ui.web.Controllers
         ///     .
         /// </returns>
         [HttpGet]
-        public ActionResult<PagedResult<RegistrationViewModel>> Get()
+        public ActionResult<IEnumerable<RegistrationViewModel>> Get()
         {
             return this._registrationService.GetAllRegistrations();
+        }
+
+        // GET: api/Registrations
+
+        /// <summary>
+        /// The get.
+        /// </summary>
+        /// <param name="searchModel">
+        /// The search Model.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///         <cref>IEnumerable</cref>
+        ///     </see>
+        ///     .
+        /// </returns>
+        [Route("SearchRegistrations")]
+        public ActionResult<PagedResult<RegistrationViewModel>> SearchRegistrations(SearchModel searchModel)
+        {
+            return this._registrationService.GetPagedRegistrations(searchModel);
         }
 
         // POST: api/Registrations

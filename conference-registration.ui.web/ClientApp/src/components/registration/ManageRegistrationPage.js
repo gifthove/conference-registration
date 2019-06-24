@@ -33,10 +33,12 @@ function ManageRegistrationPage({
   // useEffect will rerun everytime the component is rerun
   // The second parameter to the UseEffect is an array of watchable items
   useEffect(() => {
+    getConferenceById(1).catch(error => {
+      alert("Getting conference failed" + error);
+    });
+
     if (registrations.length === 0) {
-      getConferenceById(1).catch(error => {
-        alert("Getting conference failed" + error);
-      });
+      debugger;
       loadRegistrations().catch(error => {
         alert("Loading registrations failed" + error);
       });
@@ -96,6 +98,7 @@ function ManageRegistrationPage({
 
   function handleSave(event) {
     event.preventDefault();
+    debugger;
     var conferenceSave = conference;
 
     // if the form is not valid there is nothing more to do

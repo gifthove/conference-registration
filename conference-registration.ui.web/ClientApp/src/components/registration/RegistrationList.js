@@ -8,22 +8,24 @@ const RegistrationList = ({ registrations }) => {
 
   const dataSet = registrations.length === 0 ? [] : registrations;
 
-  let pageSize = 10;
-  let pagesCount = Math.ceil(dataSet.length / pageSize);
+  const pageSize = 10;
+  const pagesCount = Math.ceil(dataSet.length / pageSize);
 
-  const handleClick = (e, index) => {
+  const handlePageClick = (e, index) => {
     e.preventDefault();
     setCurrentPage(index);
   };
 
-  const handleBackClick = e => {
-    let index = currentPage - 1;
-    handleClick(e, index);
+  const handlePreviousClick = e => {
+    e.preventDefault();
+    const index = currentPage - 1;
+    setCurrentPage(index);
   };
 
-  const handleForwardClick = e => {
-    let index = currentPage + 1;
-    handleClick(e, index);
+  const handleNextClick = e => {
+    e.preventDefault();
+    const index = currentPage + 1;
+    setCurrentPage(index);
   };
 
   return (
@@ -59,12 +61,11 @@ const RegistrationList = ({ registrations }) => {
         </tbody>
       </table>
       <TablePagination
-        pageSize={pageSize}
         pagesCount={pagesCount}
         currentPage={currentPage}
-        handleClick={handleClick}
-        handleBackClick={handleBackClick}
-        handleForwardClick={handleForwardClick}
+        handlePageClick={handlePageClick}
+        handlePreviousClick={handlePreviousClick}
+        handleNextClick={handleNextClick}
       />
     </React.Fragment>
   );

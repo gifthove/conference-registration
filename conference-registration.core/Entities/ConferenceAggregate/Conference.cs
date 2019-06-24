@@ -12,7 +12,6 @@ namespace conference_registration.core.Entities.ConferenceAggregate
     using System;
     using System.Collections.Generic;
 
-    using conference_registration.core.Entities.RegistrationAggregate;
     using conference_registration.core.Interfaces;
 
     /// <summary>

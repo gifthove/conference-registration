@@ -21,6 +21,7 @@ namespace conference_registration.ui.web.Services
     using conference_registration.core.Interfaces;
     using conference_registration.core.Paging;
     using conference_registration.ui.web.Interfaces;
+    using conference_registration.ui.web.Models;
     using conference_registration.ui.web.ViewModel;
 
     using Microsoft.Extensions.Logging;
@@ -82,22 +83,6 @@ namespace conference_registration.ui.web.Services
             return null;
         }
 
-        ///// <summary>
-        ///// The get all registrations.
-        ///// </summary>
-        ///// <returns>
-        ///// The <see>
-        /////         <cref>List</cref>
-        /////     </see>
-        /////     .
-        ///// </returns>
-        //public List<RegistrationViewModel> GetAllRegistrations()
-        //{
-        //    this._logger.LogInformation(LoggingEvents.ListItems, "Get all registrations");
-        //    var registrations = this._registrationRepository.List().ToList();
-        //    return this._mapper.Map<List<RegistrationViewModel>>(registrations);
-        //}
-
         /// <summary>
         /// The get all registrations.
         /// </summary>
@@ -107,12 +92,45 @@ namespace conference_registration.ui.web.Services
         ///     </see>
         ///     .
         /// </returns>
-        public PagedResult<RegistrationViewModel> GetAllRegistrations()
+        public List<RegistrationViewModel> GetAllRegistrations()
         {
-            Expression<Func<Registration, bool>> filterQuery = r => r.Attendee.FirstName == "Gift";
+            this._logger.LogInformation(LoggingEvents.ListItems, "Get all registrations");
+            var registrations = this._registrationRepository.List().ToList();
+            return this._mapper.Map<List<RegistrationViewModel>>(registrations);
+        }
+
+        /// <summary>
+        /// The get all registrations.
+        /// </summary>
+        /// <param name="searchModel">
+        /// The search Model.
+        /// </param>
+        /// <returns>
+        /// The <see>
+        ///         <cref>List</cref>
+        ///     </see>
+        ///     .
+        /// </returns>
+        public PagedResult<RegistrationViewModel> GetPagedRegistrations(SearchModel searchModel)
+        {
+            Expression<Func<Registration, bool>> filterQuery = r =>
+                (r.Attendee.FirstName.Contains(searchModel.FirstName, StringComparison.InvariantCultureIgnoreCase)
+                 || r.Attendee.FirstName.StartsWith(searchModel.FirstName, StringComparison.InvariantCultureIgnoreCase)
+                 || r.Attendee.FirstName.EndsWith(searchModel.FirstName, StringComparison.InvariantCultureIgnoreCase)
+                 || string.Equals(
+                     r.Attendee.FirstName,
+                     searchModel.FirstName,
+                     StringComparison.InvariantCultureIgnoreCase))
+                && (r.Attendee.LastName.Contains(searchModel.LastName, StringComparison.InvariantCultureIgnoreCase) 
+                    || r.Attendee.LastName.StartsWith(searchModel.LastName, StringComparison.InvariantCultureIgnoreCase)
+                    || r.Attendee.LastName.EndsWith(searchModel.LastName, StringComparison.InvariantCultureIgnoreCase)
+                    || string.Equals(
+                        r.Attendee.LastName, 
+                        searchModel.LastName, 
+                        StringComparison.InvariantCultureIgnoreCase));
 
             this._logger.LogInformation(LoggingEvents.ListItems, "Get all registrations");
-            var registrations = this._registrationRepository.GetPagedResultForQuery(filterQuery,1,3);
+            var registrations = this._registrationRepository.GetPagedResultForQuery(filterQuery, searchModel.Page, searchModel.PageSize);
             return this._mapper.Map<PagedResult<RegistrationViewModel>>(registrations);
         }
 

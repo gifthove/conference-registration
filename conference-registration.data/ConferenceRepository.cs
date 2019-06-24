@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RegistrationRepository.cs" company="Gift Ltd">
+// <copyright file="ConferenceRepository.cs" company="Gift Ltd">
 //   © Copyright 2019 - All rights reserved
 // </copyright>
 // <summary>
@@ -88,6 +88,7 @@ namespace conference_registration.data
             return conferences;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// The get paged result for query.
         /// </summary>
@@ -101,9 +102,9 @@ namespace conference_registration.data
         /// The page size.
         /// </param>
         /// <returns>
-        /// The <see cref="PagedResult"/>.
+        /// The <see cref="T:conference_registration.core.Paging.PagedResult`1" />.
         /// </returns>
-        /// <exception cref="NotImplementedException">
+        /// <exception cref="T:System.NotImplementedException">
         /// </exception>
         public PagedResult<Conference> GetPagedResultForQuery(Expression<Func<Conference, bool>> filterQuery, int page, int pageSize)
         {

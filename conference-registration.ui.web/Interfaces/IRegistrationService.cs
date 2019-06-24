@@ -13,6 +13,7 @@ namespace conference_registration.ui.web.Interfaces
 
     using conference_registration.core.Entities.RegistrationAggregate;
     using conference_registration.core.Paging;
+    using conference_registration.ui.web.Models;
     using conference_registration.ui.web.ViewModel;
 
     /// <summary>
@@ -40,7 +41,16 @@ namespace conference_registration.ui.web.Interfaces
         ///     </see>
         ///     .
         /// </returns>
-        PagedResult<RegistrationViewModel> GetAllRegistrations();
+        List<RegistrationViewModel> GetAllRegistrations();
+
+        /// <summary>
+        /// The get paged registrations.
+        /// </summary>
+        /// <param name="searchModel"></param>
+        /// <returns>
+        /// The <see cref="PagedResult"/>.
+        /// </returns>
+        PagedResult<RegistrationViewModel> GetPagedRegistrations(SearchModel searchModel);
 
         /// <summary>
         /// The create registration.
