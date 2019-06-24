@@ -61,11 +61,11 @@ namespace conference_registration.core.Interfaces
         /// </param>
         /// <returns>
         /// The <see>
-        ///         <cref>PagedResult</cref>
+        ///         <cref>PagedList</cref>
         ///     </see>
         ///     .
         /// </returns>
-        PagedResult<TEntity> GetPagedResultForQuery(Expression<Func<TEntity, bool>> filterQuery, int page, int pageSize);
+        PagedList<TEntity> GetPagedResultForQuery(Expression<Func<TEntity, bool>> filterQuery, int page, int pageSize);
 
         /// <summary>
         /// The get by id.

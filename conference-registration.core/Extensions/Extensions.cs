@@ -37,14 +37,14 @@ namespace conference_registration.core.Extensions
         /// </typeparam>
         /// <returns>
         /// The <see>
-        ///         <cref>PagedResult</cref>
+        ///         <cref>PagedList</cref>
         ///     </see>
         ///     .
         /// </returns>
-        public static PagedResult<T> ToPagedList<T>(this IQueryable<T> query, int page, int pageSize)
+        public static PagedList<T> ToPagedList<T>(this IQueryable<T> query, int page, int pageSize)
             where T : class
         {
-            var result = new PagedResult<T> { CurrentPage = page, PageSize = pageSize, TotalCount = query.Count() };
+            var result = new PagedList<T> { CurrentPage = page, PageSize = pageSize, TotalCount = query.Count() };
 
             var pageCount = (double)result.TotalCount / pageSize;
             result.PagesCount = (int)Math.Ceiling(pageCount);
@@ -73,14 +73,14 @@ namespace conference_registration.core.Extensions
         /// </typeparam>
         /// <returns>
         /// The <see>
-        ///         <cref>PagedResult</cref>
+        ///         <cref>PagedList</cref>
         ///     </see>
         ///     .
         /// </returns>
-        public static PagedResult<U> ToPagedList<T, U>(this IQueryable<T> query, int page, int pageSize)
+        public static PagedList<U> ToPagedList<T, U>(this IQueryable<T> query, int page, int pageSize)
             where U : class
         {
-            var result = new PagedResult<U> { CurrentPage = page, PageSize = pageSize, TotalCount = query.Count() };
+            var result = new PagedList<U> { CurrentPage = page, PageSize = pageSize, TotalCount = query.Count() };
 
             var pageCount = (double)result.TotalCount / pageSize;
             result.PagesCount = (int)Math.Ceiling(pageCount);

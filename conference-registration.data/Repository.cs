@@ -103,14 +103,14 @@ namespace conference_registration.data
         /// </param>
         /// <returns>
         /// The <see>
-        ///         <cref>PagedResult</cref>
+        ///         <cref>PagedList</cref>
         ///     </see>
         ///     .
         /// </returns>
-        public PagedResult<TEntity> GetPagedResultForQuery(Expression<Func<TEntity, bool>> filterQuery, int page, int pageSize)
+        public PagedList<TEntity> GetPagedResultForQuery(Expression<Func<TEntity, bool>> filterQuery, int page, int pageSize)
         {
             var query = this._dbSet.Where(filterQuery);
-            var result = new PagedResult<TEntity> { CurrentPage = page, PageSize = pageSize, TotalCount = query.Count() };
+            var result = new PagedList<TEntity> { CurrentPage = page, PageSize = pageSize, TotalCount = query.Count() };
             var pageCount = (double)result.TotalCount / pageSize;
             result.PagesCount = (int)Math.Ceiling(pageCount);
             var skip = (page - 1) * pageSize;

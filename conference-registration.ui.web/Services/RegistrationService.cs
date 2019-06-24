@@ -111,7 +111,7 @@ namespace conference_registration.ui.web.Services
         ///     </see>
         ///     .
         /// </returns>
-        public PagedResult<RegistrationViewModel> GetPagedRegistrations(SearchModel searchModel)
+        public PagedList<RegistrationViewModel> GetPagedRegistrations(SearchModel searchModel)
         {
             Expression<Func<Registration, bool>> filterQuery = r =>
                 (r.Attendee.FirstName.Contains(searchModel.FirstName, StringComparison.InvariantCultureIgnoreCase)
@@ -131,7 +131,7 @@ namespace conference_registration.ui.web.Services
 
             this._logger.LogInformation(LoggingEvents.ListItems, "Get all registrations");
             var registrations = this._registrationRepository.GetPagedResultForQuery(filterQuery, searchModel.Page, searchModel.PageSize);
-            return this._mapper.Map<PagedResult<RegistrationViewModel>>(registrations);
+            return this._mapper.Map<PagedList<RegistrationViewModel>>(registrations);
         }
 
         /// <summary>

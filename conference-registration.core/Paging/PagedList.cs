@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PagedResult.cs" company="Gift Ltd">
+// <copyright file="PagedList.cs" company="Gift Ltd">
 //   © Copyright 2019 - All rights reserved
 // </copyright>
 // <summary>
-//   Defines the PagedResult type.
+//   Defines the PagedList type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ namespace conference_registration.core.Paging
     /// </summary>
     /// <typeparam name="T">
     /// </typeparam>
-    public class PagedResult<T> : PagedResultBase where T : class
+    public class PagedList<T> : PagedResultBase where T : class
     {
         /// <summary>
         /// Gets or sets the results.
@@ -25,9 +25,9 @@ namespace conference_registration.core.Paging
         public IList<T> Results { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PagedResult{T}"/> class.
+        /// Initializes a new instance of the <see cref="PagedList{T}"/> class.
         /// </summary>
-        public PagedResult()
+        public PagedList()
         {
             this.Results = new List<T>();
         }

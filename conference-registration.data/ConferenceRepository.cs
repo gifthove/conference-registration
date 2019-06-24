@@ -102,11 +102,11 @@ namespace conference_registration.data
         /// The page size.
         /// </param>
         /// <returns>
-        /// The <see cref="T:conference_registration.core.Paging.PagedResult`1" />.
+        /// The <see cref="T:conference_registration.core.Paging.PagedList`1" />.
         /// </returns>
         /// <exception cref="T:System.NotImplementedException">
         /// </exception>
-        public PagedResult<Conference> GetPagedResultForQuery(Expression<Func<Conference, bool>> filterQuery, int page, int pageSize)
+        public PagedList<Conference> GetPagedResultForQuery(Expression<Func<Conference, bool>> filterQuery, int page, int pageSize)
         {
             throw new NotImplementedException();
         }

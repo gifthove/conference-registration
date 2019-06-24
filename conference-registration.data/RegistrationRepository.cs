@@ -107,11 +107,11 @@ namespace conference_registration.data
         /// </param>
         /// <returns>
         /// The <see>
-        ///         <cref>PagedResult</cref>
+        ///         <cref>PagedList</cref>
         ///     </see>
         ///     .
         /// </returns>
-        public PagedResult<Registration> GetPagedResultForQuery(
+        public PagedList<Registration> GetPagedResultForQuery(
             Expression<Func<Registration, bool>> filterQuery,
             int page,
             int pageSize)

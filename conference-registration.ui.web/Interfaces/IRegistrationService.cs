@@ -48,9 +48,9 @@ namespace conference_registration.ui.web.Interfaces
         /// </summary>
         /// <param name="searchModel"></param>
         /// <returns>
-        /// The <see cref="PagedResult"/>.
+        /// The <see cref="PagedList{T}"/>.
         /// </returns>
-        PagedResult<RegistrationViewModel> GetPagedRegistrations(SearchModel searchModel);
+        PagedList<RegistrationViewModel> GetPagedRegistrations(SearchModel searchModel);
 
         /// <summary>
         /// The create registration.
