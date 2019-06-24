@@ -74,7 +74,7 @@ namespace conference_registration.ui.web.Controllers
         ///     .
         /// </returns>
         [Route("SearchRegistrations")]
-        public ActionResult<PagedResult<RegistrationViewModel>> SearchRegistrations(SearchModel searchModel)
+        public ActionResult<PagedList<RegistrationViewModel>> SearchRegistrations(SearchModel searchModel)
         {
             return this._registrationService.GetPagedRegistrations(searchModel);
         }
