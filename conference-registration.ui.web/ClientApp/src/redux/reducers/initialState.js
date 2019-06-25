@@ -2,7 +2,9 @@ export default {
   attendees: [],
   registrations: [],
   apiCallsInProgress: 0,
-  conference: {},
+  conference: {
+    sessions: []
+  },
   registrationsData: {
     results: [],
     currentPage: 0,

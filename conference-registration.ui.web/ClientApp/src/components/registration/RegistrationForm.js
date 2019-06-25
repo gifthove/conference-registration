@@ -1,7 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import RegistrationFormStepOne from "./RegistrationFormStepOne";
-
+const buttonStyle = {
+  width: "100px"
+};
 const RegistrationForm = ({
   registration,
   onSave,
@@ -133,17 +135,27 @@ const RegistrationForm = ({
               I accept the terms and use
             </label>
           </div>
-          <div className="offset-md-4">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={onBackClick}
-            >
-              Back
-            </button>
-            <button type="submit" disabled={saving} className="btn btn-primary">
-              {saving ? "Submitting..." : "Submit"}
-            </button>
+          <div className="offset-md-4 row">
+            <div className={"col-md-4"}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={onBackClick}
+                style={{ width: "100px", float: "right" }}
+              >
+                Back
+              </button>
+            </div>
+            <div className={"col-md-8"}>
+              <button
+                type="submit"
+                disabled={saving}
+                className="btn btn-primary"
+                style={buttonStyle}
+              >
+                {saving ? "Submitting..." : "Submit"}
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -183,7 +183,12 @@ const RegistrationFormStepOne = ({
     })}
 
     <div className="offset-md-5">
-      <button type="button" className="btn btn-primary" onClick={onNextClick}>
+      <button
+        type="button"
+        className="btn btn-primary"
+        onClick={onNextClick}
+        style={{ width: "100px" }}
+      >
         Next
       </button>
     </div>

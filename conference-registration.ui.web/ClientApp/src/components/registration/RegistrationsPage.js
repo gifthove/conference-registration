@@ -29,7 +29,6 @@ class RegistrationsPage extends React.Component {
       });
     }
 
-    debugger;
     if (registrationsData.results.length === 0) {
       actions.searchRegistrations(newSearchModel).catch(error => {
         alert("Searching registrations failed" + error);
@@ -69,23 +68,21 @@ class RegistrationsPage extends React.Component {
   render() {
     return (
       <Fragment>
+        <h2>Registrations</h2>
+        <button
+          style={{ margin: 20 }}
+          className="btn btn-primary add-attendee"
+          onClick={() => this.setState({ redirectToAddRegistrationPage: true })}
+        >
+          Add Registration
+        </button>
         {this.state.redirectToAddRegistrationPage && (
           <Redirect to="/Registration" />
         )}
-        <h2>Registrations</h2>
         {this.props.loading ? (
           <Spinner />
         ) : (
           <Fragment>
-            <button
-              style={{ margin: 20 }}
-              className="btn btn-primary add-attendee"
-              onClick={() =>
-                this.setState({ redirectToAddRegistrationPage: true })
-              }
-            >
-              Add Registration
-            </button>
             <RegistrationList
               registrations={this.props.registrationsData.results}
               pageSize={this.props.registrationsData.pageSize}

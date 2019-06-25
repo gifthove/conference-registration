@@ -115,7 +115,8 @@ function ManageRegistrationPage({
         setErrors({ onSave: error.message });
       });
   }
-  return registrations.length === 0 ? (
+  return registrations.length === 0 &&
+    (conference === null || conference === undefined) ? (
     <Spinner />
   ) : (
     <RegistrationForm
@@ -127,7 +128,7 @@ function ManageRegistrationPage({
       step={step}
       onNextClick={handleNext}
       onBackClick={handleBack}
-      sessions={[...conference.sessions]}
+      sessions={conference.sessions}
     />
   );
 }
