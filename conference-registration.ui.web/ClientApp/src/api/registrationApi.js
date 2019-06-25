@@ -18,6 +18,17 @@ export function saveRegistration(registration) {
     .catch(handleError);
 }
 
+export function searchRegistrations(searchModel) {
+  var url = baseUrl + "searchregistrations";
+  return fetch(url, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(searchModel)
+  })
+    .then(handleResponse)
+    .catch(handleError);
+}
+
 export function deleteRegistration(registrationId) {
   return fetch(baseUrl + registrationId, { method: "DELETE" })
     .then(handleResponse)

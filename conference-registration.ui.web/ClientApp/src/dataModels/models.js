@@ -127,12 +127,19 @@ const Titles = [
   }
 ];
 
+const newSearchModel = {
+  firstName: "Gift",
+  lastName: "Hove",
+  page: 1,
+  pageSize: 2
+};
 // Using CommonJS style export so we can consume via Node (without using Babel-node)
 module.exports = {
   newAttendee,
   attendees,
   newRegistration,
   Titles,
-  DefaultOption
+  DefaultOption,
+  newSearchModel
   // authors
 };

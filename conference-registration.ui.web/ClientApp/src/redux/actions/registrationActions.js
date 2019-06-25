@@ -57,3 +57,24 @@ export function saveRegistration(registration) {
       });
   };
 }
+
+// Every thunk is a function that returns a function which takes/accepts dispatch as an arg
+export function searchRegistrations(searchModel) {
+  //eslint-disable-next-line no-unused-vars
+  return function(dispatch, getState) {
+    dispatch(beginApiCall());
+    return registrationApi
+      .searchRegistrations(searchModel)
+      .then(registrationsData => {
+        debugger;
+        dispatch({
+          type: types.SEARCH_REGISTRATIONS_SUCCESS,
+          registrationsData
+        });
+      })
+      .catch(error => {
+        dispatch(apiCallError(error));
+        throw error;
+      });
+  };
+}

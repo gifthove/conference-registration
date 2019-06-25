@@ -1,33 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import TablePagination from "../common/TablePagination";
 
-const RegistrationList = ({ registrations }) => {
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const dataSet = registrations.length === 0 ? [] : registrations;
-
-  const pageSize = 10;
-  const pagesCount = Math.ceil(dataSet.length / pageSize);
-
-  const handlePageClick = (e, index) => {
-    e.preventDefault();
-    setCurrentPage(index);
-  };
-
-  const handlePreviousClick = e => {
-    e.preventDefault();
-    const index = currentPage - 1;
-    setCurrentPage(index);
-  };
-
-  const handleNextClick = e => {
-    e.preventDefault();
-    const index = currentPage + 1;
-    setCurrentPage(index);
-  };
-
+const RegistrationList = ({
+  registrations,
+  currentPage,
+  pagesCount,
+  handlePageClick,
+  handlePreviousClick,
+  handleNextClick
+}) => {
   return (
     <React.Fragment>
       <table className="table">
@@ -40,24 +23,22 @@ const RegistrationList = ({ registrations }) => {
           </tr>
         </thead>
         <tbody>
-          {registrations
-            .slice(currentPage * pageSize, (currentPage + 1) * pageSize)
-            .map(registration => {
-              return (
-                <tr key={registration.id}>
-                  <td>
-                    <a className="btn btn-light">View</a>
-                  </td>
-                  <td>
-                    <Link to={"/registration/" + registration.id}>
-                      {registration.attendee.title}
-                    </Link>
-                  </td>
-                  <td>{registration.attendee.firstName}</td>
-                  <td>{registration.attendee.lastName}</td>
-                </tr>
-              );
-            })}
+          {registrations.map(registration => {
+            return (
+              <tr key={registration.id}>
+                <td>
+                  <a className="btn btn-light">View</a>
+                </td>
+                <td>
+                  <Link to={"/registration/" + registration.id}>
+                    {registration.attendee.title}
+                  </Link>
+                </td>
+                <td>{registration.attendee.firstName}</td>
+                <td>{registration.attendee.lastName}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       <TablePagination
@@ -72,7 +53,13 @@ const RegistrationList = ({ registrations }) => {
 };
 
 RegistrationList.propTypes = {
-  registrations: PropTypes.array.isRequired
+  registrations: PropTypes.array.isRequired,
+  pagesCount: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  pageSize: PropTypes.number.isRequired,
+  handlePageClick: PropTypes.func.isRequired,
+  handlePreviousClick: PropTypes.func.isRequired,
+  handleNextClick: PropTypes.func.isRequired
 };
 
 export default RegistrationList;

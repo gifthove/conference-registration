@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import RegistrationList from "./RegistrationList";
 import { Redirect } from "react-router-dom";
 import Spinner from "../common/Spinner";
+import { newSearchModel } from "../../dataModels/models";
 
 class RegistrationsPage extends React.Component {
   constructor(props) {
@@ -13,15 +14,56 @@ class RegistrationsPage extends React.Component {
     this.state = {
       redirectToAddRegistrationPage: false
     };
+
+    this.handlePageClick = this.handlePageClick.bind(this);
+    this.handlePreviousClick = this.handlePreviousClick.bind(this);
+    this.handleNextClick = this.handleNextClick.bind(this);
   }
+
   componentDidMount() {
-    const { registrations, actions } = this.props;
-    debugger;
+    const { registrations, registrationsData, actions } = this.props;
+
     if (registrations.length === 0) {
       actions.loadRegistrations().catch(error => {
         alert("Loading registrations failed" + error);
       });
     }
+
+    debugger;
+    if (registrationsData.results.length === 0) {
+      actions.searchRegistrations(newSearchModel).catch(error => {
+        alert("Searching registrations failed" + error);
+      });
+    }
+  }
+
+  handlePageClick(e, index) {
+    e.preventDefault();
+    this.props.actions
+      .searchRegistrations({ ...newSearchModel, page: index + 1 })
+      .catch(error => {
+        alert("Searching registrations failed" + error);
+      });
+  }
+
+  handlePreviousClick(e) {
+    e.preventDefault();
+    const index = this.props.registrationsData.currentPage - 1;
+    this.props.actions
+      .searchRegistrations({ ...newSearchModel, page: index })
+      .catch(error => {
+        alert("Searching registrations failed" + error);
+      });
+  }
+
+  handleNextClick(e) {
+    e.preventDefault();
+    const index = this.props.registrationsData.currentPage + 1;
+    this.props.actions
+      .searchRegistrations({ ...newSearchModel, page: index })
+      .catch(error => {
+        alert("Searching registrations failed" + error);
+      });
   }
 
   render() {
@@ -44,7 +86,15 @@ class RegistrationsPage extends React.Component {
             >
               Add Registration
             </button>
-            <RegistrationList registrations={this.props.registrations} />
+            <RegistrationList
+              registrations={this.props.registrationsData.results}
+              pageSize={this.props.registrationsData.pageSize}
+              pagesCount={this.props.registrationsData.pagesCount}
+              currentPage={this.props.registrationsData.currentPage - 1}
+              handlePageClick={this.handlePageClick}
+              handlePreviousClick={this.handlePreviousClick}
+              handleNextClick={this.handleNextClick}
+            />
           </Fragment>
         )}
       </Fragment>
@@ -54,6 +104,7 @@ class RegistrationsPage extends React.Component {
 
 RegistrationsPage.propTypes = {
   registrations: PropTypes.array.isRequired,
+  registrationsData: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired
 };
@@ -62,6 +113,7 @@ RegistrationsPage.propTypes = {
 function mapStateToProps(state) {
   return {
     registrations: state.registrations,
+    registrationsData: state.registrationsData,
     loading: state.apiCallsInProgress > 0
   };
 }
@@ -72,6 +124,10 @@ function mapDispatchToProps(dispatch) {
     actions: {
       loadRegistrations: bindActionCreators(
         registrationActions.loadRegistrations,
+        dispatch
+      ),
+      searchRegistrations: bindActionCreators(
+        registrationActions.searchRegistrations,
         dispatch
       )
     }
