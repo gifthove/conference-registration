@@ -96,7 +96,7 @@ namespace conference_registration.ui.web.Services
         {
             this._logger.LogInformation(LoggingEvents.ListItems, "Get all registrations");
             var registrations = this._registrationRepository.List().ToList();
-            return this._mapper.Map<List<RegistrationViewModel>>(registrations);
+            return _mapper.Map<List<RegistrationViewModel>>(registrations);
         }
 
         /// <summary>
@@ -129,9 +129,9 @@ namespace conference_registration.ui.web.Services
                         searchModel.LastName, 
                         StringComparison.InvariantCultureIgnoreCase));
 
-            this._logger.LogInformation(LoggingEvents.ListItems, "Get all registrations");
-            var registrations = this._registrationRepository.GetPagedResultForQuery(filterQuery, searchModel.Page, searchModel.PageSize);
-            return this._mapper.Map<PagedList<RegistrationViewModel>>(registrations);
+            _logger.LogInformation(LoggingEvents.ListItems, "Get all registrations");
+            var registrations = _registrationRepository.GetPagedResultForQuery(filterQuery, searchModel.Page, searchModel.PageSize);
+            return _mapper.Map<PagedList<RegistrationViewModel>>(registrations);
         }
 
         /// <summary>
@@ -142,10 +142,10 @@ namespace conference_registration.ui.web.Services
         /// </param>
         public void CreateRegistration(RegistrationViewModel registrationViewModel)
         {
-            this._logger.LogInformation(LoggingEvents.InsertItem, "Create Registration");
-            var registration = this._mapper.Map<Registration>(registrationViewModel);
+            _logger.LogInformation(LoggingEvents.InsertItem, "Create Registration");
+            var registration = _mapper.Map<Registration>(registrationViewModel);
             registration.AddAttendeeSessionRegistration(registrationViewModel.AttendingSessions.ToList());
-            this._registrationRepository.Insert(registration);
+            _registrationRepository.Insert(registration);
         }
 
         /// <summary>
@@ -156,10 +156,10 @@ namespace conference_registration.ui.web.Services
         /// </param>
         public void UpdateRegistration(RegistrationViewModel registrationViewModel)
         {
-            this._logger.LogInformation(LoggingEvents.UpdateItem, "Update Registration");
-            var registration = this._mapper.Map<Registration>(registrationViewModel);
+            _logger.LogInformation(LoggingEvents.UpdateItem, "Update Registration");
+            var registration = _mapper.Map<Registration>(registrationViewModel);
             registration.AddAttendeeSessionRegistration(registrationViewModel.AttendingSessions.ToList());
-            this._registrationRepository.Update(registration);
+            _registrationRepository.Update(registration);
         }
 
         /// <summary>
@@ -170,8 +170,8 @@ namespace conference_registration.ui.web.Services
         /// </param>
         public void DeleteRegistration(int id)
         {
-            this._logger.LogInformation(LoggingEvents.DeleteItem, "Delete Registration");
-            this._registrationRepository.Delete(id);
+            _logger.LogInformation(LoggingEvents.DeleteItem, "Delete Registration");
+            _registrationRepository.Delete(id);
         }
     }
 }

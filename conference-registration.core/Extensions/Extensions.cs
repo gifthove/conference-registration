@@ -14,7 +14,7 @@ namespace conference_registration.core.Extensions
 
     using AutoMapper.QueryableExtensions;
 
-    using conference_registration.core.Paging;
+    using Paging;
 
     /// <summary>
     /// The extension.

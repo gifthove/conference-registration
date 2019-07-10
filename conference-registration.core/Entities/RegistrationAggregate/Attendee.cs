@@ -9,8 +9,6 @@
 
 namespace conference_registration.core.Entities.RegistrationAggregate
 {
-    using conference_registration.core.Interfaces;
-
     /// <summary>
     /// The attendee.
     /// </summary>

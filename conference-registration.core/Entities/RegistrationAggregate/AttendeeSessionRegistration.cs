@@ -9,7 +9,7 @@
 
 namespace conference_registration.core.Entities.RegistrationAggregate
 {
-    using conference_registration.core.Entities.ConferenceAggregate;
+    using ConferenceAggregate;
 
     /// <summary>
     /// The attending session registration.

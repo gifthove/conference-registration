@@ -14,10 +14,10 @@ namespace conference_registration.data
     using System.Linq;
     using System.Linq.Expressions;
 
-    using conference_registration.core.Entities.RegistrationAggregate;
-    using conference_registration.core.Extensions;
-    using conference_registration.core.Interfaces;
-    using conference_registration.core.Paging;
+    using core.Entities.RegistrationAggregate;
+    using core.Extensions;
+    using core.Interfaces;
+    using core.Paging;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -53,8 +53,8 @@ namespace conference_registration.data
         /// </param>
         public RegistrationRepository(ConferenceContext context)
         {
-            this._context = context;
-            this._dbSet = context.Set<Registration>();
+            _context = context;
+            _dbSet = context.Set<Registration>();
         }
 
         /// <summary>
@@ -68,8 +68,9 @@ namespace conference_registration.data
         /// </returns>
         public IEnumerable<Registration> List()
         {
-            return this._dbSet.Include(a => a.Attendee)
-                .Include(c => c.AttendingSessions).ThenInclude(S => S.Session)
+            return _dbSet.Include(a => a.Attendee)
+                .Include(c => c.AttendingSessions)
+                .ThenInclude(S => S.Session)
                 .ToList();
         }
 
@@ -88,7 +89,7 @@ namespace conference_registration.data
         /// </returns>
         public IEnumerable<Registration> FindBy(Expression<Func<Registration, bool>> filterQuery)
         {
-            var registrations = this._dbSet.Where(filterQuery).ToList();
+            var registrations = _dbSet.Where(filterQuery).ToList();
             return registrations;
         }
 
@@ -116,7 +117,7 @@ namespace conference_registration.data
             int page,
             int pageSize)
         {
-            var result = this._dbSet.Include(a => a.Attendee)
+            var result = _dbSet.Include(a => a.Attendee)
                 .Include(c => c.AttendingSessions)
                 .ThenInclude(S => S.Session)
                 .Where(filterQuery)
@@ -136,7 +137,7 @@ namespace conference_registration.data
         /// </returns>
         public Registration GetById(int id)
         {
-            return this._dbSet.Find(id);
+            return _dbSet.Find(id);
         }
 
         /// <summary>
@@ -147,8 +148,8 @@ namespace conference_registration.data
         /// </param>
         public void Insert(Registration entity)
         {
-            this._dbSet.Add(entity);
-            this._context.SaveChanges();
+            _dbSet.Add(entity);
+            _context.SaveChanges();
         }
 
         /// <summary>
@@ -159,9 +160,9 @@ namespace conference_registration.data
         /// </param>
         public void Update(Registration entity)
         {
-            this._dbSet.Attach(entity);
-            this._context.Entry(entity).State = EntityState.Modified;
-            this._context.SaveChanges();
+            _dbSet.Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
+            _context.SaveChanges();
         }
 
         /// <summary>
@@ -172,9 +173,9 @@ namespace conference_registration.data
         /// </param>
         public void Delete(int id)
         {
-            var entityToDelete = this._dbSet.Find(id);
-            this._dbSet.Remove(entityToDelete);
-            this._context.SaveChanges();
+            var entityToDelete = _dbSet.Find(id);
+            _dbSet.Remove(entityToDelete);
+            _context.SaveChanges();
         }
     }
 }

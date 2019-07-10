@@ -12,7 +12,7 @@ namespace conference_registration.core.Entities.ConferenceAggregate
     using System;
     using System.Collections.Generic;
 
-    using conference_registration.core.Interfaces;
+    using Interfaces;
 
     /// <summary>
     /// The conference.
@@ -37,7 +37,7 @@ namespace conference_registration.core.Entities.ConferenceAggregate
         /// <summary>
         /// The sessions.
         /// </summary>
-        public IReadOnlyCollection<Session> Sessions => this._sessions.AsReadOnly();
+        public IReadOnlyCollection<Session> Sessions => _sessions.AsReadOnly();
 
         /// <summary>
         /// The add session.
@@ -53,7 +53,7 @@ namespace conference_registration.core.Entities.ConferenceAggregate
         /// </param>
         public void AddSession(string topic, DateTime startTime, DateTime endTime)
         {
-            this._sessions.Add(new Session()
+            _sessions.Add(new Session()
                 {
                     Topic = topic,
                     StartTime = startTime,

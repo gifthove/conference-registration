@@ -13,7 +13,8 @@ const RegistrationFormStepOne = ({
   onChange,
   errors = {},
   onNextClick,
-  sessions
+  sessions,
+  checkedChange
 }) => (
   <div>
     <SelectInput
@@ -178,6 +179,8 @@ const RegistrationFormStepOne = ({
           name="conferenceId"
           label={Session.topic}
           value={Session.id}
+          style={{ margin: 20 }}
+          checkedChange={checkedChange}
         />
       );
     })}
@@ -200,7 +203,8 @@ RegistrationFormStepOne.propTypes = {
   errors: PropTypes.object,
   onChange: PropTypes.func.isRequired,
   onNextClick: PropTypes.func.isRequired,
-  sessions: PropTypes.array.isRequired
+  sessions: PropTypes.array.isRequired,
+  checkedChange: PropTypes.func.isRequired
 };
 
 export default RegistrationFormStepOne;

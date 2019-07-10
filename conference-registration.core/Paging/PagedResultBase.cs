@@ -2,7 +2,7 @@
 // <copyright file="PagedResultBase.cs" company="Gift Ltd">
 //   © Copyright 2019 - All rights reserved
 // </copyright>
-// <summary>
+// <summary>        
 //   Defines the PagedResultBase type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------

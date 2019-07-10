@@ -9,9 +9,8 @@
 
 namespace conference_registration.data
 {
-    using conference_registration.core.Entities;
-    using conference_registration.core.Entities.ConferenceAggregate;
-    using conference_registration.core.Entities.RegistrationAggregate;
+    using core.Entities.ConferenceAggregate;
+    using core.Entities.RegistrationAggregate;
 
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -65,8 +64,9 @@ namespace conference_registration.data
         /// </param>
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Conference>(this.ConfigureConference);
-            builder.Entity<Registration>(this.ConfigureRegistration);
+            builder.Entity<Conference>(ConfigureConference);
+            builder.Entity<Registration>(ConfigureRegistration);
+            builder.Entity<Attendee>(ConfigureAttendee);
         }
 
 
