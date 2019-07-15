@@ -135,6 +135,7 @@ namespace conference_registration.ui.web.Controllers
                 return this.NotFound();
             }
 
+            // Test
             this._conferenceService.DeleteConference(id); 
 
             return this.Ok();
