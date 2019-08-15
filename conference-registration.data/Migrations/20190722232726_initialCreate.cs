@@ -14,15 +14,23 @@ namespace conference_registration.data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(nullable: true),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(maxLength: 4, nullable: false),
+                    FirstName = table.Column<string>(maxLength: 400, nullable: false),
+                    LastName = table.Column<string>(maxLength: 400, nullable: false),
+                    Position = table.Column<string>(nullable: true),
+                    Department = table.Column<string>(nullable: true),
                     AddressLine1 = table.Column<string>(nullable: true),
                     AddressLine2 = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    Country = table.Column<string>(nullable: true),
+                    PostalCode = table.Column<string>(nullable: true),
+                    Fax = table.Column<string>(nullable: true),
                     Company = table.Column<string>(nullable: true),
                     Workphone = table.Column<string>(nullable: true),
                     MobilePhone = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true)
+                    Email = table.Column<string>(nullable: true),
+                    TermsAndConditions = table.Column<bool>(nullable: false),
+                    IndividualBooking = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -35,7 +43,7 @@ namespace conference_registration.data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 400, nullable: false),
                     Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -59,12 +67,6 @@ namespace conference_registration.data.Migrations
                         name: "FK_Registrations_Attendees_AttendeeId",
                         column: x => x.AttendeeId,
                         principalTable: "Attendees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Registrations_Conferences_ConferenceId",
-                        column: x => x.ConferenceId,
-                        principalTable: "Conferences",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });

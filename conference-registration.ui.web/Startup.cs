@@ -7,17 +7,21 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Reflection;
+using MediatR;
+using Microsoft.OpenApi.Models;
+
 namespace conference_registration.ui.web
 {
     using AutoMapper;
 
-    using conference_registration.core.Entities.ConferenceAggregate;
-    using conference_registration.core.Entities.RegistrationAggregate;
+    using core.Entities.ConferenceAggregate;
+    using core.Entities.RegistrationAggregate;
     using conference_registration.core.Interfaces;
-    using conference_registration.data;
-    using conference_registration.ui.web.Interfaces;
-    using conference_registration.ui.web.MapperProfiles;
-    using conference_registration.ui.web.Services;
+    using data;
+    using Interfaces;
+    using MapperProfiles;
+    using Services;
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -27,6 +31,7 @@ namespace conference_registration.ui.web
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Microsoft.OpenApi.Models;
 
     /// <summary>
     /// The startup.
@@ -84,16 +89,27 @@ namespace conference_registration.ui.web
                 // Development service configuration
                 services.AddDbContext<ConferenceContext>(options =>
                     options.UseSqlServer(this._configuration.GetConnectionString("DefaultConnection")));
-                services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
                 services.AddScoped<IRepository<Attendee>, Repository<Attendee>>();
                 services.AddScoped<IRepository<Conference>, ConferenceRepository>();
                 services.AddScoped<IRepository<Session>, Repository<Session>>();
                 services.AddScoped<IRepository<Registration>, RegistrationRepository>();
 
+                //services.AddMediatr
+                // Wiring the Mediator in the Container
+                services.AddMediatR(Assembly.GetExecutingAssembly());
                 services.AddScoped<IAttendeeService, AttendeeService>();
                 services.AddScoped<IConferenceService, ConferenceService>();
                 services.AddScoped<IRegistrationService, RegistrationService>();
+              
+                services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+                // Register the Swagger generator, defining 1 or more Swagger documents
+                services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                });
+
 
                 // Auto Mapper Configurations
                 var mappingConfig = new MapperConfiguration(mc =>
@@ -108,28 +124,33 @@ namespace conference_registration.ui.web
             }
             else
             {
-                // Non-development service configuration
+                // Development service configuration
                 services.AddDbContext<ConferenceContext>(options =>
                     options.UseSqlServer(this._configuration.GetConnectionString("DefaultConnection")));
-                services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
                 services.AddScoped<IRepository<Attendee>, Repository<Attendee>>();
                 services.AddScoped<IRepository<Conference>, ConferenceRepository>();
                 services.AddScoped<IRepository<Session>, Repository<Session>>();
                 services.AddScoped<IRepository<Registration>, RegistrationRepository>();
 
+                //services.AddMediatr
+                services.AddMediatR(Assembly.GetExecutingAssembly());
                 services.AddScoped<IAttendeeService, AttendeeService>();
                 services.AddScoped<IConferenceService, ConferenceService>();
                 services.AddScoped<IRegistrationService, RegistrationService>();
 
+                services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
                 // Auto Mapper Configurations
                 var mappingConfig = new MapperConfiguration(mc =>
-                    {
-                        mc.AddProfile(new MappingProfile());
-                    });
+                {
+                    mc.AddProfile(new MappingProfile());
+                });
 
                 IMapper mapper = mappingConfig.CreateMapper();
                 services.AddSingleton(mapper);
+
+                logger.LogInformation("Production environment");
             }
 
             // In production, the React files will be served from this directory
@@ -167,6 +188,15 @@ namespace conference_registration.ui.web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             app.UseMvc(routes =>
                 {

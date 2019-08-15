@@ -9,9 +9,6 @@
 
 namespace conference_registration.core.Paging
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-
     /// <summary>
     /// The paged result base.
     /// </summary>

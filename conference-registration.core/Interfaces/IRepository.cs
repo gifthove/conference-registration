@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using conference_registration.core.Paging;
+
 namespace conference_registration.core.Interfaces
 {
     using System;
@@ -15,7 +17,6 @@ namespace conference_registration.core.Interfaces
     using System.Linq.Expressions;
 
     using conference_registration.core.Entities;
-    using conference_registration.core.Paging;
 
     /// <summary>
     /// The Repository interface.

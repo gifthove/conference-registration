@@ -7,17 +7,16 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using conference_registration.core.Paging;
+
 namespace conference_registration.ui.web.Controllers
 {
-    using System.Collections.Generic;
-
-    using conference_registration.core.Entities.RegistrationAggregate;
-    using conference_registration.core.Paging;
-    using conference_registration.ui.web.Interfaces;
-    using conference_registration.ui.web.Models;
-    using conference_registration.ui.web.ViewModel;
-
+    using core.Entities.RegistrationAggregate;
+    using Interfaces;
     using Microsoft.AspNetCore.Mvc;
+    using Models;
+    using System.Collections.Generic;
+    using ViewModel;
 
     /// <summary>
     /// The registrations controller.
@@ -74,6 +73,7 @@ namespace conference_registration.ui.web.Controllers
         ///     .
         /// </returns>
         [Route("SearchRegistrations")]
+        [HttpPost]
         public ActionResult<PagedList<RegistrationViewModel>> SearchRegistrations(SearchModel searchModel)
         {
             return this._registrationService.GetPagedRegistrations(searchModel);

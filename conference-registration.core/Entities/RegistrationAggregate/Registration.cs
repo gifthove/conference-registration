@@ -30,6 +30,7 @@ namespace conference_registration.core.Entities.RegistrationAggregate
 
         /// <summary>
         /// Gets or sets the conference id.
+        /// Preferreferences to external aggregates only by their global identities
         /// </summary>
         public int ConferenceId { get; private set; }
 

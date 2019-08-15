@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using conference_registration.core.Paging;
+
 namespace conference_registration.data
 {
     using System;
@@ -16,8 +18,6 @@ namespace conference_registration.data
 
     using conference_registration.core.Entities.ConferenceAggregate;
     using conference_registration.core.Interfaces;
-    using conference_registration.core.Paging;
-
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>

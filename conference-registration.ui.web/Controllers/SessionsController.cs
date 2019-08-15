@@ -52,7 +52,7 @@ namespace conference_registration.ui.web.Controllers
         /// <returns>
         /// The <see cref="Session"/>.
         /// </returns>
-        [HttpGet("{id}", Name = "sessionsforconference")]
+        [HttpGet]
         [Route("sessionsforconference/{id}")]
         public ActionResult<IEnumerable<Session>> GetSessionsForConference(int id)
         {

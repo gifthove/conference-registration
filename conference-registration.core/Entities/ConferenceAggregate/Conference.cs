@@ -22,17 +22,27 @@ namespace conference_registration.core.Entities.ConferenceAggregate
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         /// <summary>
         /// Gets or sets the description.
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; private set; }
 
         /// <summary>
         /// The _items.
         /// </summary>
         private readonly List<Session> _sessions = new List<Session>();
+
+        public Conference()
+        {
+        }
+
+        public Conference(string name, string description)
+        {
+            Name = name;
+            Description = description;
+        }
 
         /// <summary>
         /// The sessions.
@@ -54,10 +64,10 @@ namespace conference_registration.core.Entities.ConferenceAggregate
         public void AddSession(string topic, DateTime startTime, DateTime endTime)
         {
             _sessions.Add(new Session()
-                {
-                    Topic = topic,
-                    StartTime = startTime,
-                    EndTime = endTime
+            {
+                Topic = topic,
+                StartTime = startTime,
+                EndTime = endTime
             });
         }
     }

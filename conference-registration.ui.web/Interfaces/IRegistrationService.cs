@@ -7,12 +7,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using conference_registration.core.Paging;
+
 namespace conference_registration.ui.web.Interfaces
 {
     using System.Collections.Generic;
 
     using conference_registration.core.Entities.RegistrationAggregate;
-    using conference_registration.core.Paging;
     using conference_registration.ui.web.Models;
     using conference_registration.ui.web.ViewModel;
 

@@ -7,14 +7,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using conference_registration.core.Paging;
+
 namespace conference_registration.core.Extensions
 {
     using System;
     using System.Linq;
 
     using AutoMapper.QueryableExtensions;
-
-    using Paging;
 
     /// <summary>
     /// The extension.

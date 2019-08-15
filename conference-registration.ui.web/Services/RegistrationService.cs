@@ -7,6 +7,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using conference_registration.core.Events;
+using conference_registration.core.Paging;
+
 namespace conference_registration.ui.web.Services
 {
     using System;
@@ -19,7 +22,6 @@ namespace conference_registration.ui.web.Services
     using conference_registration.common;
     using conference_registration.core.Entities.RegistrationAggregate;
     using conference_registration.core.Interfaces;
-    using conference_registration.core.Paging;
     using conference_registration.ui.web.Interfaces;
     using conference_registration.ui.web.Models;
     using conference_registration.ui.web.ViewModel;
@@ -145,6 +147,7 @@ namespace conference_registration.ui.web.Services
             _logger.LogInformation(LoggingEvents.InsertItem, "Create Registration");
             var registration = _mapper.Map<Registration>(registrationViewModel);
             registration.AddAttendeeSessionRegistration(registrationViewModel.AttendingSessions.ToList());
+            registration.AddDomainEvent(new RegistrationDoneDomainEvent(registration));
             _registrationRepository.Insert(registration);
         }
 

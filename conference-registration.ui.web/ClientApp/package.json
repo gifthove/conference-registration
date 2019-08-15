@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": "11.7.0"
+  },
   "name": "conferenceregistration",
   "version": "0.1.0",
   "private": true,

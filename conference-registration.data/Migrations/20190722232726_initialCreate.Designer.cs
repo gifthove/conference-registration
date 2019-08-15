@@ -10,14 +10,14 @@ using conference_registration.data;
 namespace conference_registration.data.Migrations
 {
     [DbContext(typeof(ConferenceContext))]
-    [Migration("20190516093433_AddedMoreColumns")]
-    partial class AddedMoreColumns
+    [Migration("20190722232726_initialCreate")]
+    partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -81,11 +81,15 @@ namespace conference_registration.data.Migrations
 
                     b.Property<string>("Fax");
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(400);
 
                     b.Property<bool>("IndividualBooking");
 
-                    b.Property<string>("LastName");
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(400);
 
                     b.Property<string>("MobilePhone");
 
@@ -95,7 +99,9 @@ namespace conference_registration.data.Migrations
 
                     b.Property<bool>("TermsAndConditions");
 
-                    b.Property<string>("Title");
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(4);
 
                     b.Property<string>("Workphone");
 

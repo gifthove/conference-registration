@@ -7,28 +7,50 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Data;
+using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
+using Microsoft.EntityFrameworkCore.Storage;
+
 namespace conference_registration.data
 {
+    using Mapping;
+    using System;
+    using System.Linq;
+    using System.Reflection;
+
     using core.Entities.ConferenceAggregate;
     using core.Entities.RegistrationAggregate;
 
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
     /// <summary>
     /// The conference context.
     /// </summary>
     public class ConferenceContext : DbContext
     {
+        private readonly IMediator _mediator;
+        private IDbContextTransaction _currentTransaction;
+        public IDbContextTransaction GetCurrentTransaction() => _currentTransaction;
+
+        public bool HasActiveTransaction => _currentTransaction != null;
+
+        private ConferenceContext(DbContextOptions<ConferenceContext> options) : base(options) { }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ConferenceContext"/> class.
         /// </summary>
         /// <param name="options">
         /// The options.
         /// </param>
-        public ConferenceContext(DbContextOptions<ConferenceContext> options)
-            : base(options)
+        /// <param name="mediator"></param>
+        public ConferenceContext(DbContextOptions<ConferenceContext> options, IMediator mediator) : base(options)
         {
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+
+
+            System.Diagnostics.Debug.WriteLine("ConferenceContext::ctor ->" + this.GetHashCode());
         }
 
         /// <summary>
@@ -64,50 +86,85 @@ namespace conference_registration.data
         /// </param>
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Conference>(ConfigureConference);
-            builder.Entity<Registration>(ConfigureRegistration);
-            builder.Entity<Attendee>(ConfigureAttendee);
+
+            //dynamically load all entity and query type configurations
+            var typeConfigurations = Assembly.GetExecutingAssembly().GetTypes().Where(type =>
+                (type.BaseType?.IsGenericType ?? false)
+                && (type.BaseType.GetGenericTypeDefinition() == typeof(ConferenceContextConfiguration<>)));
+
+            foreach (var typeConfiguration in typeConfigurations)
+            {
+                dynamic configuration = Activator.CreateInstance(typeConfiguration);
+                builder.ApplyConfiguration(configuration);
+            }
+            base.OnModelCreating(builder);
         }
 
-
-
-        /// <summary>
-        /// The configure conference.
-        /// </summary>
-        /// <param name="builder">
-        /// The builder.
-        /// </param>
-        private void ConfigureConference(EntityTypeBuilder<Conference> builder)
+        public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            var navigation = builder.Metadata.FindNavigation(nameof(Conference.Sessions));
-            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
-            builder.Property(p => p.Name).HasMaxLength(400).IsRequired();
+            // Dispatch Domain Events collection. 
+            // Choices:
+            // A) Right BEFORE committing data (EF SaveChanges) into the DB will make a single transaction including  
+            // side effects from the domain event handlers which are using the same DbContext with "InstancePerLifetimeScope" or "scoped" lifetime
+            // B) Right AFTER committing data (EF SaveChanges) into the DB will make multiple transactions. 
+            // You will need to handle eventual consistency and compensatory actions in case of failures in any of the Handlers. 
+            await _mediator.DispatchDomainEventsAsync(this);
+
+            // After executing this line all the changes (from the Command Handler and Domain Event Handlers) 
+            // performed through the DbContext will be committed
+            var result = await base.SaveChangesAsync(cancellationToken);
+
+            return true;
         }
 
-        /// <summary>
-        /// The configure registration.
-        /// </summary>
-        /// <param name="builder">
-        /// The builder.
-        /// </param>
-        private void ConfigureRegistration(EntityTypeBuilder<Registration> builder)
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
         {
-            var navigation = builder.Metadata.FindNavigation(nameof(Registration.AttendingSessions));
-            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+            if (_currentTransaction != null) return null;
+
+            _currentTransaction = await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
+
+            return _currentTransaction;
         }
 
-        /// <summary>
-        /// The configure attendee.
-        /// </summary>
-        /// <param name="builder">
-        /// The builder.
-        /// </param>
-        private void ConfigureAttendee(EntityTypeBuilder<Attendee> builder)
+        public async Task CommitTransactionAsync(IDbContextTransaction transaction)
         {
-            builder.Property(p => p.Title).HasMaxLength(4).IsRequired();
-            builder.Property(p => p.FirstName).HasMaxLength(400).IsRequired();
-            builder.Property(p => p.LastName).HasMaxLength(400).IsRequired();
+            if (transaction == null) throw new ArgumentNullException(nameof(transaction));
+            if (transaction != _currentTransaction) throw new InvalidOperationException($"Transaction {transaction.TransactionId} is not current");
+
+            try
+            {
+                await SaveChangesAsync();
+                transaction.Commit();
+            }
+            catch
+            {
+                RollbackTransaction();
+                throw;
+            }
+            finally
+            {
+                if (_currentTransaction != null)
+                {
+                    _currentTransaction.Dispose();
+                    _currentTransaction = null;
+                }
+            }
         }
 
+        public void RollbackTransaction()
+        {
+            try
+            {
+                _currentTransaction?.Rollback();
+            }
+            finally
+            {
+                if (_currentTransaction != null)
+                {
+                    _currentTransaction.Dispose();
+                    _currentTransaction = null;
+                }
+            }
+        }
     }
 }

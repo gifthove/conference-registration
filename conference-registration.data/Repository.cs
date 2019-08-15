@@ -7,6 +7,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Threading;
+using conference_registration.core.Paging;
+
 namespace conference_registration.data
 {
     using System;
@@ -16,8 +19,6 @@ namespace conference_registration.data
 
     using core.Entities;
     using core.Interfaces;
-    using core.Paging;
-
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
@@ -142,7 +143,7 @@ namespace conference_registration.data
         public void Insert(TEntity entity)
         {
             _dbSet.Add(entity);
-            _context.SaveChanges();
+           var resut = _context.SaveEntitiesAsync(new CancellationToken()).Result;
         }
 
         /// <summary>
