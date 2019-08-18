@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.489
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{E230CE38-FD4E-4467-A07D-E50FB8E70404}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ui", "ui", "{351E7C9E-8629-47D3-8C5F-4B026B260E27}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{929465DA-E2E4-403E-B10F-3C835D1F67D2}"
@@ -17,7 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{D5FB90
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "conference-registration.common", "conference-registration.common\conference-registration.common.csproj", "{9D823168-705A-4CDC-819E-0ACEF4259986}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "conference-registration.ui.web", "conference-registration.ui.web\conference-registration.ui.web.csproj", "{5D2B1A1F-51DD-4F86-921D-E7F4E8ED3D34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "conference-registration.ui.web", "conference-registration.ui.web\conference-registration.ui.web.csproj", "{5D2B1A1F-51DD-4F86-921D-E7F4E8ED3D34}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{3C557ED4-B703-4687-A2C9-C61CF63BF252}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "conference-registration.Infrastructure", "conference-registration.Infrastructure\conference-registration.Infrastructure.csproj", "{72701C50-94A5-4E92-997B-F76E5E1C9912}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,15 +43,20 @@ Global
 		{5D2B1A1F-51DD-4F86-921D-E7F4E8ED3D34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D2B1A1F-51DD-4F86-921D-E7F4E8ED3D34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D2B1A1F-51DD-4F86-921D-E7F4E8ED3D34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72701C50-94A5-4E92-997B-F76E5E1C9912}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72701C50-94A5-4E92-997B-F76E5E1C9912}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72701C50-94A5-4E92-997B-F76E5E1C9912}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72701C50-94A5-4E92-997B-F76E5E1C9912}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4C07E33D-472E-4F7B-AF81-671553D86BE2} = {929465DA-E2E4-403E-B10F-3C835D1F67D2}
-		{1D4D5CCE-1395-4AB8-B72B-188D518999A5} = {E230CE38-FD4E-4467-A07D-E50FB8E70404}
+		{1D4D5CCE-1395-4AB8-B72B-188D518999A5} = {3C557ED4-B703-4687-A2C9-C61CF63BF252}
 		{9D823168-705A-4CDC-819E-0ACEF4259986} = {D5FB90DF-3D5B-476C-A547-2C13F17C9605}
 		{5D2B1A1F-51DD-4F86-921D-E7F4E8ED3D34} = {351E7C9E-8629-47D3-8C5F-4B026B260E27}
+		{72701C50-94A5-4E92-997B-F76E5E1C9912} = {3C557ED4-B703-4687-A2C9-C61CF63BF252}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {462474C6-6465-4BE1-AD42-085275699F73}

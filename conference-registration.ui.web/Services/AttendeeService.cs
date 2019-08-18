@@ -12,11 +12,10 @@ namespace conference_registration.ui.web.Services
     using System.Collections.Generic;
     using System.Linq;
 
-    using conference_registration.common;
-    using conference_registration.core.Entities;
-    using conference_registration.core.Entities.RegistrationAggregate;
+    using common;
+    using core.Entities.RegistrationAggregate;
     using conference_registration.core.Interfaces;
-    using conference_registration.ui.web.Interfaces;
+    using Interfaces;
 
     using Microsoft.Extensions.Logging;
 

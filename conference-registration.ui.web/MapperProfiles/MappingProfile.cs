@@ -7,12 +7,16 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using conference_registration.core.Entities;
+using conference_registration.ui.web.Configuration;
+using conference_registration.ui.web.Factories;
+
 namespace conference_registration.ui.web.MapperProfiles
 {
     using AutoMapper;
 
-    using conference_registration.core.Entities.RegistrationAggregate;
-    using conference_registration.ui.web.ViewModel;
+    using core.Entities.RegistrationAggregate;
+    using ViewModel;
 
     /// <summary>
     /// The mapping profile mapping profile.
@@ -26,6 +30,7 @@ namespace conference_registration.ui.web.MapperProfiles
         {
             // Add as many of these lines as you need to map your objects
             this.CreateMap<Registration, RegistrationViewModel>().ReverseMap();
+            this.CreateMap<EmailAccount, EmailModelFactories>().ReverseMap();
         }
     }
 }

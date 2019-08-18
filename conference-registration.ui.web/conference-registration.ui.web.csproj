@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -30,6 +30,7 @@
     <ProjectReference Include="..\conference-registration.common\conference-registration.common.csproj" />
     <ProjectReference Include="..\conference-registration.core\conference-registration.core.csproj" />
     <ProjectReference Include="..\conference-registration.data\conference-registration.data.csproj" />
+    <ProjectReference Include="..\conference-registration.Infrastructure\conference-registration.Infrastructure.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

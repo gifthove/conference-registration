@@ -11,7 +11,7 @@ namespace conference_registration.ui.web
 {
     using System;
 
-    using conference_registration.data;
+    using data;
 
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;

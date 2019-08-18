@@ -49,18 +49,18 @@ namespace conference_registration.core.Entities
         /// </summary>
         public bool UseDefaultCredentials { get; set; }
 
-        /// <summary>
-        /// Gets a friendly email account name
-        /// </summary>
-        public string FriendlyName
-        {
-            get
-            {
-                if (!string.IsNullOrWhiteSpace(DisplayName))
-                    return Email + " (" + DisplayName + ")";
+        ///// <summary>
+        ///// Gets a friendly email account name
+        ///// </summary>
+        //public string FriendlyName
+        //{
+        //    get
+        //    {
+        //        if (!string.IsNullOrWhiteSpace(DisplayName))
+        //            return Email + " (" + DisplayName + ")";
 
-                return Email;
-            }
-        }
+        //        return Email;
+        //    }
+        //}
     }
 }

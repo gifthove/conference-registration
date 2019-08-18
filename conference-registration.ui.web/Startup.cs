@@ -8,7 +8,13 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Reflection;
+using conference_registration.core.Entities;
+using conference_registration.Infrastructure.Services;
+using conference_registration.ui.web.Configuration;
+using conference_registration.ui.web.Factories;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 namespace conference_registration.ui.web
@@ -93,7 +99,12 @@ namespace conference_registration.ui.web
                 services.AddScoped<IRepository<Attendee>, Repository<Attendee>>();
                 services.AddScoped<IRepository<Conference>, ConferenceRepository>();
                 services.AddScoped<IRepository<Session>, Repository<Session>>();
+                services.AddScoped<IRepository<EmailAccount>, Repository<EmailAccount>>();
                 services.AddScoped<IRepository<Registration>, RegistrationRepository>();
+                services.AddScoped<IEmailSender, EmailSender>();
+                services.AddScoped<IEmailModelFactories, EmailModelFactories>();
+                //services.Configure<EmailConfiguration>(_configuration.GetSection("EmailConfiguration"));
+                services.TryAddSingleton<IEmailConfiguration>(sp => sp.GetRequiredService<IOptions<EmailConfiguration>>().Value);
 
                 //services.AddMediatr
                 // Wiring the Mediator in the Container
@@ -127,17 +138,22 @@ namespace conference_registration.ui.web
                 // Development service configuration
                 services.AddDbContext<ConferenceContext>(options =>
                     options.UseSqlServer(this._configuration.GetConnectionString("DefaultConnection")));
-
                 services.AddScoped<IRepository<Attendee>, Repository<Attendee>>();
                 services.AddScoped<IRepository<Conference>, ConferenceRepository>();
                 services.AddScoped<IRepository<Session>, Repository<Session>>();
+                services.AddScoped<IRepository<EmailAccount>, Repository<EmailAccount>>();
                 services.AddScoped<IRepository<Registration>, RegistrationRepository>();
+
+                services.Configure<EmailConfiguration>(_configuration.GetSection("EmailConfiguration"));
+                services.TryAddSingleton<IEmailConfiguration>(sp => sp.GetRequiredService<IOptions<EmailConfiguration>>().Value);
 
                 //services.AddMediatr
                 services.AddMediatR(Assembly.GetExecutingAssembly());
                 services.AddScoped<IAttendeeService, AttendeeService>();
                 services.AddScoped<IConferenceService, ConferenceService>();
                 services.AddScoped<IRegistrationService, RegistrationService>();
+                services.AddScoped<IEmailSender, EmailSender>();
+                services.AddScoped<IEmailModelFactories, EmailModelFactories>();
 
                 services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
