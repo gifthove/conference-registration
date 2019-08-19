@@ -7,18 +7,21 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Threading;
-using conference_registration.core.Paging;
-
+// ReSharper disable UnusedVariable
+// ReSharper disable RedundantArgumentDefaultValue
 namespace conference_registration.data
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Threading;
+
+    using conference_registration.core.Paging;
 
     using core.Entities;
     using core.Interfaces;
+
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
@@ -53,8 +56,8 @@ namespace conference_registration.data
         /// </param>
         public Repository(ConferenceContext context)
         {
-            _context = context;
-            _dbSet = context.Set<TEntity>();
+            this._context = context;
+            this._dbSet = context.Set<TEntity>();
         }
 
         /// <summary>
@@ -68,7 +71,7 @@ namespace conference_registration.data
         /// </returns>
         public IEnumerable<TEntity> List()
         {
-            return _dbSet.ToList();
+            return this._dbSet.ToList();
         }
 
         /// <inheritdoc />
@@ -86,7 +89,7 @@ namespace conference_registration.data
         /// </returns>
         public IEnumerable<TEntity> FindBy(Expression<Func<TEntity, bool>> filterQuery)
         {
-            var entities = _dbSet.Where(filterQuery).ToList();
+            var entities = this._dbSet.Where(filterQuery).ToList();
             return entities;
         }
 
@@ -110,7 +113,7 @@ namespace conference_registration.data
         /// </returns>
         public PagedList<TEntity> GetPagedResultForQuery(Expression<Func<TEntity, bool>> filterQuery, int page, int pageSize)
         {
-            var query = _dbSet.Where(filterQuery);
+            var query = this._dbSet.Where(filterQuery);
             var result = new PagedList<TEntity> { CurrentPage = page, PageSize = pageSize, TotalCount = query.Count() };
             var pageCount = (double)result.TotalCount / pageSize;
             result.PagesCount = (int)Math.Ceiling(pageCount);
@@ -131,7 +134,7 @@ namespace conference_registration.data
         /// </returns>
         public TEntity GetById(int id)
         {
-            return _dbSet.Find(id);
+            return this._dbSet.Find(id);
         }
 
         /// <summary>
@@ -142,8 +145,8 @@ namespace conference_registration.data
         /// </param>
         public void Insert(TEntity entity)
         {
-            _dbSet.Add(entity);
-           var resut = _context.SaveEntitiesAsync(new CancellationToken()).Result;
+            this._dbSet.Add(entity);
+           var resut = this._context.SaveEntitiesAsync(new CancellationToken()).Result;
         }
 
         /// <summary>
@@ -154,9 +157,9 @@ namespace conference_registration.data
         /// </param>
         public void Update(TEntity entity)
         {
-            _dbSet.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;
-            _context.SaveChanges();
+            this._dbSet.Attach(entity);
+            this._context.Entry(entity).State = EntityState.Modified;
+            this._context.SaveChanges();
         }
 
         /// <summary>
@@ -167,9 +170,9 @@ namespace conference_registration.data
         /// </param>
         public void Delete(int id)
         {
-            var entityToDelete = _dbSet.Find(id);
-            _dbSet.Remove(entityToDelete);
-            _context.SaveChanges();
+            var entityToDelete = this._dbSet.Find(id);
+            this._dbSet.Remove(entityToDelete);
+            this._context.SaveChanges();
         }
     }
 }

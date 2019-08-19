@@ -1,10 +1,25 @@
-﻿using conference_registration.core.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ConferenceContextConfiguration.cs" company="Gift Ltd">
+//   © Copyright 2019 - All rights reserved
+// </copyright>
+// <summary>
+//   Defines the ConferenceContextConfiguration type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace conference_registration.data.Mapping
 {
-    public abstract partial class ConferenceContextConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : BaseEntity
+    using conference_registration.core.Entities;
+
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+    /// <summary>
+    /// The conference context configuration.
+    /// </summary>
+    /// <typeparam name="TEntity">
+    /// </typeparam>
+    public abstract class ConferenceContextConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : BaseEntity
     {
         #region Utilities
 

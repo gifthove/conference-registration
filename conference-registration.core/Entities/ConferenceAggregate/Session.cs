@@ -30,6 +30,5 @@ namespace conference_registration.core.Entities.ConferenceAggregate
         /// Gets or sets the end time.
         /// </summary>
         public DateTime EndTime { get; set; }
-
     }
 }

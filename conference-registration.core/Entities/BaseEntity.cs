@@ -7,55 +7,107 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using MediatR;
-
+// ReSharper disable All
 namespace conference_registration.core.Entities
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+
+    using MediatR;
+
     /// <summary>
     /// The base entity.
     /// </summary>
+    [SuppressMessage("ReSharper", "NonReadonlyMemberInGetHashCode")]
     public abstract class BaseEntity
     {
-        int? _requestedHashCode;
+        /// <summary>
+        /// The _requested hash code.
+        /// </summary>
+        private int? _requestedHashCode;
+
+        /// <summary>
+        /// The _ id.
+        /// </summary>
         private int _Id;
+
+        /// <summary>
+        /// Gets or sets the id.
+        /// </summary>
         public virtual int Id
         {
-            get => _Id;
-            protected set => _Id = value;
+            get => this._Id;
+            protected set => this._Id = value;
         }
 
+        /// <summary>
+        /// The _domain events.
+        /// </summary>
         private List<INotification> _domainEvents;
-        public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly();
 
+        /// <summary>
+        /// The domain events.
+        /// </summary>
+        public IReadOnlyCollection<INotification> DomainEvents => this._domainEvents?.AsReadOnly();
+
+        /// <summary>
+        /// The add domain event.
+        /// </summary>
+        /// <param name="eventItem">
+        /// The event item.
+        /// </param>
         public void AddDomainEvent(INotification eventItem)
         {
-            _domainEvents = _domainEvents ?? new List<INotification>();
-            _domainEvents.Add(eventItem);
+            this._domainEvents = this._domainEvents ?? new List<INotification>();
+            this._domainEvents.Add(eventItem);
         }
 
+        /// <summary>
+        /// The remove domain event.
+        /// </summary>
+        /// <param name="eventItem">
+        /// The event item.
+        /// </param>
         public void RemoveDomainEvent(INotification eventItem)
         {
-            _domainEvents?.Remove(eventItem);
+            this._domainEvents?.Remove(eventItem);
         }
 
+        /// <summary>
+        /// The clear domain events.
+        /// </summary>
         public void ClearDomainEvents()
         {
-            _domainEvents?.Clear();
+            this._domainEvents?.Clear();
         }
 
+        /// <summary>
+        /// The is transient.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public bool IsTransient()
         {
-            return Id == default(Int32);
+            return this.Id == default(int);
         }
 
+        /// <summary>
+        /// The equals.
+        /// </summary>
+        /// <param name="obj">
+        /// The obj.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public override bool Equals(object obj)
         {
             if (obj == null || !(obj is BaseEntity))
                 return false;
 
-            if (Object.ReferenceEquals(this, obj))
+            if (object.ReferenceEquals(this, obj))
                 return true;
 
             if (this.GetType() != obj.GetType())
@@ -69,27 +121,56 @@ namespace conference_registration.core.Entities
                 return item.Id == this.Id;
         }
 
+        /// <summary>
+        /// The get hash code.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
         public override int GetHashCode()
         {
-            if (!IsTransient())
+            if (!this.IsTransient())
             {
-                if (!_requestedHashCode.HasValue)
-                    _requestedHashCode = this.Id.GetHashCode() ^ 31; // XOR for random distribution (http://blogs.msdn.com/b/ericlippert/archive/2011/02/28/guidelines-and-rules-for-gethashcode.aspx)
+                if (!this._requestedHashCode.HasValue) this._requestedHashCode = this.Id.GetHashCode() ^ 31; // XOR for random distribution (http://blogs.msdn.com/b/ericlippert/archive/2011/02/28/guidelines-and-rules-for-gethashcode.aspx)
 
-                return _requestedHashCode.Value;
+                return this._requestedHashCode.Value;
             }
             else
                 return base.GetHashCode();
-
         }
+
+        /// <summary>
+        /// The ==.
+        /// </summary>
+        /// <param name="left">
+        /// The left.
+        /// </param>
+        /// <param name="right">
+        /// The right.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public static bool operator ==(BaseEntity left, BaseEntity right)
         {
-            if (Object.Equals(left, null))
-                return (Object.Equals(right, null)) ? true : false;
+            if (Equals(left, null))
+                return Equals(right, null);
             else
                 return left.Equals(right);
         }
 
+        /// <summary>
+        /// The !=.
+        /// </summary>
+        /// <param name="left">
+        /// The left.
+        /// </param>
+        /// <param name="right">
+        /// The right.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         public static bool operator !=(BaseEntity left, BaseEntity right)
         {
             return !(left == right);

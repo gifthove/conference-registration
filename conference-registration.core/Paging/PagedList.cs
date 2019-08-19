@@ -7,10 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-
 namespace conference_registration.core.Paging
 {
+    using System.Collections.Generic;
+
     /// <inheritdoc />
     /// <summary>
     /// The paged result.

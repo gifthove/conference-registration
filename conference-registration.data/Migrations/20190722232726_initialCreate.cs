@@ -1,11 +1,32 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="20190722232726_initialCreate.cs" company="Gift Ltd">
+//   © Copyright 2019 - All rights reserved
+// </copyright>
+// <summary>
+//   Defines the initialCreate type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
 
 namespace conference_registration.data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Metadata;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
+    /// <summary>
+    /// The initial create.
+    /// </summary>
     public partial class initialCreate : Migration
     {
+        /// <summary>
+        /// The up.
+        /// </summary>
+        /// <param name="migrationBuilder">
+        /// The migration builder.
+        /// </param>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(

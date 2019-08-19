@@ -1,71 +1,62 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EmailAccount.cs" company="Gift Ltd">
+// <copyright file="IEmailConfiguration.cs" company="Gift Ltd">
 //   © Copyright 2019 - All rights reserved
 // </copyright>
 // <summary>
-//   Represents an email account
+//   The EmailConfiguration interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace conference_registration.core.Entities
+namespace conference_registration.ui.web.Configuration
 {
     /// <summary>
-    /// Represents an email account
+    /// The EmailConfiguration interface.
     /// </summary>
-    public class EmailAccount : BaseEntity
+    public interface IEmailConfiguration
     {
+        /// <summary>
+        /// Gets or sets the id.
+        /// </summary>
+        int Id { get; set; }
+
         /// <summary>
         /// Gets or sets an email address
         /// </summary>
-        public string Email { get; set; }
+        string Email { get; set; }
 
         /// <summary>
         /// Gets or sets an email display name
         /// </summary>
-        public string DisplayName { get; set; }
+        string DisplayName { get; set; }
 
         /// <summary>
         /// Gets or sets an email host
         /// </summary>
-        public string Host { get; set; }
+        string Host { get; set; }
 
         /// <summary>
         /// Gets or sets an email port
         /// </summary>
-        public int Port { get; set; }
+        int Port { get; set; }
 
         /// <summary>
         /// Gets or sets an email user name
         /// </summary>
-        public string Username { get; set; }
+        string Username { get; set; }
 
         /// <summary>
         /// Gets or sets an email password
         /// </summary>
-        public string Password { get; set; }
+        string Password { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether that controls whether the SmtpClient uses Secure Sockets Layer (SSL) to encrypt the connection
         /// </summary>
-        public bool EnableSsl { get; set; }
+        bool EnableSsl { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether that controls whether the default system credentials of the application are sent with requests.
         /// </summary>
-        public bool UseDefaultCredentials { get; set; }
-
-        ///// <summary>
-        ///// Gets a friendly email account name
-        ///// </summary>
-        // public string FriendlyName
-        // {
-        // get
-        // {
-        // if (!string.IsNullOrWhiteSpace(DisplayName))
-        // return Email + " (" + DisplayName + ")";
-
-        // return Email;
-        // }
-        // }
+        bool UseDefaultCredentials { get; set; }
     }
 }

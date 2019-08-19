@@ -103,7 +103,7 @@ namespace conference_registration.ui.web
                 services.AddScoped<IRepository<Registration>, RegistrationRepository>();
                 services.AddScoped<IEmailSender, EmailSender>();
                 services.AddScoped<IEmailModelFactories, EmailModelFactories>();
-                //services.Configure<EmailConfiguration>(_configuration.GetSection("EmailConfiguration"));
+                services.Configure<EmailConfiguration>(_configuration.GetSection("EmailConfiguration"));
                 services.TryAddSingleton<IEmailConfiguration>(sp => sp.GetRequiredService<IOptions<EmailConfiguration>>().Value);
 
                 //services.AddMediatr

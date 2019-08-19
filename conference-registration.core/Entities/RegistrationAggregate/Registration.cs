@@ -32,6 +32,7 @@ namespace conference_registration.core.Entities.RegistrationAggregate
         /// Gets or sets the conference id.
         /// Preferreferences to external aggregates only by their global identities
         /// </summary>
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
         public int ConferenceId { get; private set; }
 
         /// <summary>

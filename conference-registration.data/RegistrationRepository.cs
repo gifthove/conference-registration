@@ -7,19 +7,21 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Threading;
-using conference_registration.core.Paging;
-
+// ReSharper disable UnusedVariable
 namespace conference_registration.data
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Threading;
+
+    using conference_registration.core.Paging;
 
     using core.Entities.RegistrationAggregate;
     using core.Extensions;
     using core.Interfaces;
+
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
@@ -54,8 +56,8 @@ namespace conference_registration.data
         /// </param>
         public RegistrationRepository(ConferenceContext context)
         {
-            _context = context;
-            _dbSet = context.Set<Registration>();
+            this._context = context;
+            this._dbSet = context.Set<Registration>();
         }
 
         /// <summary>
@@ -69,7 +71,7 @@ namespace conference_registration.data
         /// </returns>
         public IEnumerable<Registration> List()
         {
-            return _dbSet.Include(a => a.Attendee)
+            return this._dbSet.Include(a => a.Attendee)
                 .Include(c => c.AttendingSessions)
                 .ThenInclude(S => S.Session)
                 .ToList();
@@ -90,7 +92,7 @@ namespace conference_registration.data
         /// </returns>
         public IEnumerable<Registration> FindBy(Expression<Func<Registration, bool>> filterQuery)
         {
-            var registrations = _dbSet.Where(filterQuery).ToList();
+            var registrations = this._dbSet.Where(filterQuery).ToList();
             return registrations;
         }
 
@@ -118,7 +120,7 @@ namespace conference_registration.data
             int page,
             int pageSize)
         {
-            var result = _dbSet.Include(a => a.Attendee)
+            var result = this._dbSet.Include(a => a.Attendee)
                 .Include(c => c.AttendingSessions)
                 .ThenInclude(S => S.Session)
                 .Where(filterQuery)
@@ -138,7 +140,7 @@ namespace conference_registration.data
         /// </returns>
         public Registration GetById(int id)
         {
-            return _dbSet.Find(id);
+            return this._dbSet.Find(id);
         }
 
         /// <summary>
@@ -149,9 +151,10 @@ namespace conference_registration.data
         /// </param>
         public void Insert(Registration entity)
         {
-            _dbSet.Add(entity);
-            //_context.SaveChanges();
-            var result =_context.SaveEntitiesAsync(new CancellationToken()).Result;
+            this._dbSet.Add(entity);
+
+            // _context.SaveChanges();
+            var result = this._context.SaveEntitiesAsync(new CancellationToken()).Result;
         }
 
         /// <summary>
@@ -162,9 +165,9 @@ namespace conference_registration.data
         /// </param>
         public void Update(Registration entity)
         {
-            _dbSet.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;
-            _context.SaveChanges();
+            this._dbSet.Attach(entity);
+            this._context.Entry(entity).State = EntityState.Modified;
+            this._context.SaveChanges();
         }
 
         /// <summary>
@@ -175,9 +178,9 @@ namespace conference_registration.data
         /// </param>
         public void Delete(int id)
         {
-            var entityToDelete = _dbSet.Find(id);
-            _dbSet.Remove(entityToDelete);
-            _context.SaveChanges();
+            var entityToDelete = this._dbSet.Find(id);
+            this._dbSet.Remove(entityToDelete);
+            this._context.SaveChanges();
         }
     }
 }

@@ -26,7 +26,14 @@ namespace conference_registration.ui.web.DomainEventHandlers.RegistrationEventHa
                Debug.WriteLine("event fired");
                var emailAccount = _emailModelFactories.PrepareEmailAccountModel();
 
-                //_emailSender.SendEmail();
+                _emailSender.SendEmail(emailAccount.EmailAccount,
+                    "Test", 
+                    "First thing first",
+                    "gifthove@gmail.com",
+                    "Gift",
+                    "gifthov@gmail.com",
+                    "Gift");
+
            }, cancellationToken);
         }
     }

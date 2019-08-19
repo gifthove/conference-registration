@@ -98,6 +98,5 @@ namespace conference_registration.core.Entities.RegistrationAggregate
         /// Gets or sets a value indicating whether individual booking.
         /// </summary>
         public bool IndividualBooking { get; set; }
-
     }
 }

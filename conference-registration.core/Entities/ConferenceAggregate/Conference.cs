@@ -34,20 +34,32 @@ namespace conference_registration.core.Entities.ConferenceAggregate
         /// </summary>
         private readonly List<Session> _sessions = new List<Session>();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Conference"/> class.
+        /// </summary>
         public Conference()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Conference"/> class.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <param name="description">
+        /// The description.
+        /// </param>
         public Conference(string name, string description)
         {
-            Name = name;
-            Description = description;
+            this.Name = name;
+            this.Description = description;
         }
 
         /// <summary>
         /// The sessions.
         /// </summary>
-        public IReadOnlyCollection<Session> Sessions => _sessions.AsReadOnly();
+        public IReadOnlyCollection<Session> Sessions => this._sessions.AsReadOnly();
 
         /// <summary>
         /// The add session.
@@ -63,7 +75,7 @@ namespace conference_registration.core.Entities.ConferenceAggregate
         /// </param>
         public void AddSession(string topic, DateTime startTime, DateTime endTime)
         {
-            _sessions.Add(new Session()
+            this._sessions.Add(new Session()
             {
                 Topic = topic,
                 StartTime = startTime,

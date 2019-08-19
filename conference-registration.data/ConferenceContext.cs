@@ -7,36 +7,66 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Data;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
-using Microsoft.EntityFrameworkCore.Storage;
-
+// ReSharper disable UnusedMember.Local
+// ReSharper disable ConsiderUsingConfigureAwait
+// ReSharper disable UnusedVariable
 namespace conference_registration.data
 {
-    using Mapping;
     using System;
+    using System.Data;
     using System.Linq;
     using System.Reflection;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     using core.Entities.ConferenceAggregate;
     using core.Entities.RegistrationAggregate;
 
+    using Mapping;
+
+    using MediatR;
+
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Storage;
 
     /// <summary>
     /// The conference context.
     /// </summary>
     public class ConferenceContext : DbContext
     {
+        /// <summary>
+        /// The _mediator.
+        /// </summary>
         private readonly IMediator _mediator;
+
+        /// <summary>
+        /// The _current transaction.
+        /// </summary>
         private IDbContextTransaction _currentTransaction;
-        public IDbContextTransaction GetCurrentTransaction() => _currentTransaction;
 
-        public bool HasActiveTransaction => _currentTransaction != null;
+        /// <summary>
+        /// The get current transaction.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IDbContextTransaction"/>.
+        /// </returns>
+        public IDbContextTransaction GetCurrentTransaction() => this._currentTransaction;
 
-        private ConferenceContext(DbContextOptions<ConferenceContext> options) : base(options) { }
+        /// <summary>
+        /// The has active transaction.
+        /// </summary>
+        public bool HasActiveTransaction => this._currentTransaction != null;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConferenceContext"/> class.
+        /// </summary>
+        /// <param name="options">
+        /// The options.
+        /// </param>
+        private ConferenceContext(DbContextOptions<ConferenceContext> options)
+            : base(options)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConferenceContext"/> class.
@@ -47,9 +77,9 @@ namespace conference_registration.data
         /// <param name="mediator"></param>
         public ConferenceContext(DbContextOptions<ConferenceContext> options, IMediator mediator) : base(options)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this._mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
-
+            // ReSharper disable once VirtualMemberCallInConstructor
             System.Diagnostics.Debug.WriteLine("ConferenceContext::ctor ->" + this.GetHashCode());
         }
 
@@ -86,8 +116,7 @@ namespace conference_registration.data
         /// </param>
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
-            //dynamically load all entity and query type configurations
+            // dynamically load all entity and query type configurations
             var typeConfigurations = Assembly.GetExecutingAssembly().GetTypes().Where(type =>
                 (type.BaseType?.IsGenericType ?? false)
                 && (type.BaseType.GetGenericTypeDefinition() == typeof(ConferenceContextConfiguration<>)));
@@ -97,9 +126,19 @@ namespace conference_registration.data
                 dynamic configuration = Activator.CreateInstance(typeConfiguration);
                 builder.ApplyConfiguration(configuration);
             }
+
             base.OnModelCreating(builder);
         }
 
+        /// <summary>
+        /// The save entities async.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             // Dispatch Domain Events collection. 
@@ -108,61 +147,83 @@ namespace conference_registration.data
             // side effects from the domain event handlers which are using the same DbContext with "InstancePerLifetimeScope" or "scoped" lifetime
             // B) Right AFTER committing data (EF SaveChanges) into the DB will make multiple transactions. 
             // You will need to handle eventual consistency and compensatory actions in case of failures in any of the Handlers. 
-            await _mediator.DispatchDomainEventsAsync(this);
+            await this._mediator.DispatchDomainEventsAsync(this);
 
             // After executing this line all the changes (from the Command Handler and Domain Event Handlers) 
             // performed through the DbContext will be committed
-            var result = await base.SaveChangesAsync(cancellationToken);
+            var result = await this.SaveChangesAsync(cancellationToken);
 
             return true;
         }
 
+        /// <summary>
+        /// The begin transaction async.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
         public async Task<IDbContextTransaction> BeginTransactionAsync()
         {
-            if (_currentTransaction != null) return null;
+            if (this._currentTransaction != null) return null;
 
-            _currentTransaction = await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
+            this._currentTransaction = await this.Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
 
-            return _currentTransaction;
+            return this._currentTransaction;
         }
 
+        /// <summary>
+        /// The commit transaction async.
+        /// </summary>
+        /// <param name="transaction">
+        /// The transaction.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// </exception>
         public async Task CommitTransactionAsync(IDbContextTransaction transaction)
         {
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
-            if (transaction != _currentTransaction) throw new InvalidOperationException($"Transaction {transaction.TransactionId} is not current");
+            if (transaction != this._currentTransaction) throw new InvalidOperationException($"Transaction {transaction.TransactionId} is not current");
 
             try
             {
-                await SaveChangesAsync();
+                await this.SaveChangesAsync();
                 transaction.Commit();
             }
             catch
             {
-                RollbackTransaction();
+                this.RollbackTransaction();
                 throw;
             }
             finally
             {
-                if (_currentTransaction != null)
+                if (this._currentTransaction != null)
                 {
-                    _currentTransaction.Dispose();
-                    _currentTransaction = null;
+                    this._currentTransaction.Dispose();
+                    this._currentTransaction = null;
                 }
             }
         }
 
+        /// <summary>
+        /// The rollback transaction.
+        /// </summary>
         public void RollbackTransaction()
         {
             try
             {
-                _currentTransaction?.Rollback();
+                this._currentTransaction?.Rollback();
             }
             finally
             {
-                if (_currentTransaction != null)
+                if (this._currentTransaction != null)
                 {
-                    _currentTransaction.Dispose();
-                    _currentTransaction = null;
+                    this._currentTransaction.Dispose();
+                    this._currentTransaction = null;
                 }
             }
         }
