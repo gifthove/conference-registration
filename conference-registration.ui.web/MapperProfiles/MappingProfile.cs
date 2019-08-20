@@ -7,15 +7,15 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using conference_registration.core.Entities;
-using conference_registration.ui.web.Configuration;
-using conference_registration.ui.web.Factories;
-
 namespace conference_registration.ui.web.MapperProfiles
 {
     using AutoMapper;
 
+    using conference_registration.core.Entities;
+    using conference_registration.ui.web.Factories;
+
     using core.Entities.RegistrationAggregate;
+
     using ViewModel;
 
     /// <summary>

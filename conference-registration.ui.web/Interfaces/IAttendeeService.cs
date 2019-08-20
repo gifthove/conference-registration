@@ -11,7 +11,6 @@ namespace conference_registration.ui.web.Interfaces
 {
     using System.Collections.Generic;
 
-    using conference_registration.core.Entities;
     using conference_registration.core.Entities.RegistrationAggregate;
 
     /// <summary>

@@ -161,6 +161,12 @@ namespace conference_registration.data.Migrations
                 column: "ConferenceId");
         }
 
+        /// <summary>
+        /// The down.
+        /// </summary>
+        /// <param name="migrationBuilder">
+        /// The migration builder.
+        /// </param>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

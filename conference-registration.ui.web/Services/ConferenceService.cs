@@ -9,14 +9,11 @@
 
 namespace conference_registration.ui.web.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using conference_registration.common;
-    using conference_registration.core.Entities;
     using conference_registration.core.Entities.ConferenceAggregate;
-    using conference_registration.core.Entities.RegistrationAggregate;
     using conference_registration.core.Interfaces;
     using conference_registration.ui.web.Interfaces;
 
@@ -128,7 +125,10 @@ namespace conference_registration.ui.web.Services
         /// The conference id.
         /// </param>
         /// <returns>
-        /// The <see cref="IEnumerable"/>.
+        /// The <see>
+        ///         <cref>IEnumerable</cref>
+        ///     </see>
+        ///     .
         /// </returns>
         public IEnumerable<Session> GetSessionByConferenceId(int ConferenceId)
         {
