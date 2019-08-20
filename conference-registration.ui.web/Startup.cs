@@ -7,27 +7,28 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Reflection;
-using conference_registration.core.Entities;
-using conference_registration.Infrastructure.Services;
-using conference_registration.ui.web.Configuration;
-using conference_registration.ui.web.Factories;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
-
 namespace conference_registration.ui.web
 {
+    using System.Reflection;
+
     using AutoMapper;
+
+    using conference_registration.core.Entities;
+    using conference_registration.core.Interfaces;
+    using conference_registration.Infrastructure.Services;
+    using conference_registration.ui.web.Configuration;
+    using conference_registration.ui.web.Factories;
 
     using core.Entities.ConferenceAggregate;
     using core.Entities.RegistrationAggregate;
-    using conference_registration.core.Interfaces;
+
     using data;
+
     using Interfaces;
+
     using MapperProfiles;
-    using Services;
+
+    using MediatR;
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -36,8 +37,12 @@ namespace conference_registration.ui.web
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.DependencyInjection.Extensions;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
     using Microsoft.OpenApi.Models;
+
+    using Services;
 
     /// <summary>
     /// The startup.
@@ -103,10 +108,10 @@ namespace conference_registration.ui.web
                 services.AddScoped<IRepository<Registration>, RegistrationRepository>();
                 services.AddScoped<IEmailSender, EmailSender>();
                 services.AddScoped<IEmailModelFactories, EmailModelFactories>();
-                services.Configure<EmailConfiguration>(_configuration.GetSection("EmailConfiguration"));
+                services.Configure<EmailConfiguration>(this._configuration.GetSection("EmailConfiguration"));
                 services.TryAddSingleton<IEmailConfiguration>(sp => sp.GetRequiredService<IOptions<EmailConfiguration>>().Value);
 
-                //services.AddMediatr
+                // services.AddMediatr
                 // Wiring the Mediator in the Container
                 services.AddMediatR(Assembly.GetExecutingAssembly());
                 services.AddScoped<IAttendeeService, AttendeeService>();
@@ -120,7 +125,6 @@ namespace conference_registration.ui.web
                 {
                     c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
                 });
-
 
                 // Auto Mapper Configurations
                 var mappingConfig = new MapperConfiguration(mc =>
@@ -144,10 +148,10 @@ namespace conference_registration.ui.web
                 services.AddScoped<IRepository<EmailAccount>, Repository<EmailAccount>>();
                 services.AddScoped<IRepository<Registration>, RegistrationRepository>();
 
-                services.Configure<EmailConfiguration>(_configuration.GetSection("EmailConfiguration"));
+                services.Configure<EmailConfiguration>(this._configuration.GetSection("EmailConfiguration"));
                 services.TryAddSingleton<IEmailConfiguration>(sp => sp.GetRequiredService<IOptions<EmailConfiguration>>().Value);
 
-                //services.AddMediatr
+                // services.AddMediatr
                 services.AddMediatR(Assembly.GetExecutingAssembly());
                 services.AddScoped<IAttendeeService, AttendeeService>();
                 services.AddScoped<IConferenceService, ConferenceService>();
