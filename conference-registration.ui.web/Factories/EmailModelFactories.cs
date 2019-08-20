@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 namespace conference_registration.ui.web.Factories
 {
     using AutoMapper;
@@ -17,7 +15,7 @@ namespace conference_registration.ui.web.Factories
     using conference_registration.ui.web.Configuration;
     using conference_registration.ui.web.Models;
 
-    using EmailConfiguration = conference_registration.ui.web.Configuration.EmailConfiguration;
+    using EmailConfiguration = Configuration.EmailConfiguration;
 
     /// <summary>
     /// The email model factories.
@@ -57,7 +55,7 @@ namespace conference_registration.ui.web.Factories
         /// </returns>
         public DefaultEmailModel PrepareEmailAccountModel()
         {
-            EmailConfiguration emailConfiguration = this._emailConfiguration as EmailConfiguration;
+            var emailConfiguration = this._emailConfiguration as EmailConfiguration;
             var emailAccount = this._mapper.Map<EmailAccount>(emailConfiguration);
             return new DefaultEmailModel() { EmailAccount = emailAccount };
         }
